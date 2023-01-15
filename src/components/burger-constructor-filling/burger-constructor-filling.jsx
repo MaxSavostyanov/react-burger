@@ -1,21 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import constructorItemStyles from './burger-constructor-filling.module.css'
+import styles from './burger-constructor-filling.module.css'
 import {
 	DragIcon,
 	ConstructorElement
 }
 	from '@ya.praktikum/react-developer-burger-ui-components';
+import ingredientProps from '../../untils/prop-types';
 
-  export default function ConstructorFilling({ item }) {
+  export default function ConstructorFilling({ ingredient }) {
 	return (
-		<li className={`${constructorItemStyles.filling} pt-4 pr-2`}>
-			<DragIcon type="primary" />
+		<li className={`${styles.filling} pt-4 pr-2`}>
+			<DragIcon type='primary' />
 			<ConstructorElement
-				text={item.name}
-				price={item.price}
-				thumbnail={item.image}
+				text={ingredient.name}
+				price={ingredient.price}
+				thumbnail={ingredient.image}
 			/>
 		</li>
 	)
+}
+
+ConstructorFilling.propTypes = {
+  ingredient: ingredientProps.isRequired,
 }

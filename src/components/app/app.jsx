@@ -3,9 +3,18 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import { data } from '../../untils/data';
+import getProductData from '../api/api';
 
 export default function App() {
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    getProductData()
+      .then(res => setData(res.data))
+      .catch(e => console.log(`Упс, ошибка! ${e}`))
+  },
+  []);
+
   return (
     <div className={styles.app}>
       <AppHeader />
