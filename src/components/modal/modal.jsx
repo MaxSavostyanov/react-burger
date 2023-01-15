@@ -22,18 +22,15 @@ export default function Modal({
   }
 
   React.useEffect(() => {
-    document.addEventListener('click', closeModal);
     document.addEventListener('keydown', handleEcsClose);
 
-
     return () => {
-      document.removeEventListener('click', closeModal);
       document.removeEventListener('keydown', handleEcsClose);
     }
   });
 
   return createPortal(
-    <ModalOverlay>
+    <ModalOverlay closeModal={closeModal}>
       <div
         className={`${styles.container} pt-10 pr-10 pb-10 pl-10`}
         onClick={e => e.stopPropagation()}
