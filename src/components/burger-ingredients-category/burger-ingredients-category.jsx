@@ -4,7 +4,7 @@ import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
 import ingredientProps from '../../untils/prop-types';
 
-export default function BurgerIngredientsCategory({ type, data }) {
+export default function BurgerIngredientsCategory({ type, data, openIngredientDetails }) {
   const categories = {
     'bun': 'Булки',
     'sauce': 'Соусы',
@@ -18,7 +18,11 @@ export default function BurgerIngredientsCategory({ type, data }) {
       <h2 className={`${styles.title} text text_type_main-medium pb-6`}>{categories[type]}</h2>
       <ul className={`${styles.list} pr-1`}>
         {ingredients.map((ingredient) => (
-          <Item key={ingredient._id} ingredient={ingredient} />
+          <Item
+            key={ingredient._id}
+            ingredient={ingredient}
+            openIngredientDetails={openIngredientDetails}
+          />
         ))}
       </ul>
     </li>
@@ -28,5 +32,6 @@ export default function BurgerIngredientsCategory({ type, data }) {
 BurgerIngredientsCategory.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(ingredientProps).isRequired,
+  openIngredientDetails: PropTypes.func.isRequired,
 }
 
