@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# Проект: Stellar Burgers
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Обзор
+* [О проекте](#о-проекте)
+* [Установка](#установка)
+* [Функционал](#функционал)
+* [Технологии и инструменты](#технологии-и-инструменты)
+* [Требования к проекту](#требования-к-проекту)
+* [Figma](#figma)
+---
+### О проекте
 
-## Available Scripts
+Проект седьмого учебного месяца **«Основы React»** курса «Веб-разработчик плюс» от Яндекс Практикума.
 
-In the project directory, you can run:
+**Stellar Burgers** - приложение космической бургерной (статическая веб-страница).
 
-### `npm start`
+---
+### Установка
+```
+Клонировать репозиторий
+  git clone git@github.com:MaxSavostyanov/react-burger.git
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Войти в проект через консоль
+  cd react-burger
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Установить зависимости
+  npm install
 
-### `npm test`
+Старт сервера
+  npm start
+```
+---
+### Функционал
+- Просмотр деталей заказа, понажатию на кнопку «Оформить заказ»;
+- Просмотр подробной информации об ингридиете, понажатию на карточку с игридиентом;
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
+### Технологии и инструменты
 
-### `npm run build`
+При выполнение проекта были использованы следующие технологии и инструменты:
+- HTML
+- CSS
+- Flexbox
+- Grid
+- JavaScript
+- React 
+- Webpack
+- Babel
+- PostCSS
+---
+### Требования к проекту
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Проект должен соответствовать [чек-листу](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_7.pdf) и [стандарту Яндекс.Практиму по офорлению HTML и CSS кода](https://code.s3.yandex.net/web-developer/static/design-rules/index.html).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
+### Figma
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* [Ссылка на макет в Figma](https://www.figma.com/file/ocw9a6hNGeAejl4F3G9fp8/React-_-Проектные-задачи-(3-месяца)_external_link?node-id=20%3A158&t=Lh4G5GBZRw7l0j0u-0)
