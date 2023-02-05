@@ -25,11 +25,7 @@ export default function BurgerConstructor() {
     return ids;
   };
 
-  const [totalPrice, setTotalPrice] = React.useState(0);
-  React.useEffect(() => {
-    const totalPrice = fillings.reduce((sum, item) => sum + item.price, bun ? (bun.price * 2) : 0);
-    setTotalPrice(totalPrice);
-  }, [bun, fillings]);
+  const totalPrice = React.useMemo(() => fillings.reduce((sum, item) => sum + item.price, bun ? (bun.price * 2) : 0), [bun, fillings]);
 
   const [isOpenedModal, setIsOpenedModal] = React.useState(false);
 
