@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from './order-details.module.css'
 import icon from '../../images/icon-done.svg'
+import { OrderContext } from '../../contexts/appContext';
 
 export default function OrderDetails() {
+	const { order } = React.useContext(OrderContext);
+
 	return (
 		<div className={`${styles.container} pt-20 pb-20`}>
 			<h1 className='text text_type_digits-large pb-8'>
-				{Math.random().toString().slice(2, 8)}
+				{order.order.number}
 			</h1>
 			<p className='text text_type_main-medium pb-15'>идентификатор заказа</p>
 			<img className={`${styles.icon} pb-15`} src={icon} alt='Заказ принят' />
