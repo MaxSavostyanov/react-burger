@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import Tabs from '../burger-ingredients-tabs/burger-ingredients-tabs';
 import Category from '../burger-ingredients-category/burger-ingredients-category';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import ingredientProps from '../../untils/prop-types';
 
-export default function BurgerIngredients({ data }) {
+export default function BurgerIngredients() {
 	const [isOpenedModal, setIsOpenedModal] = React.useState(false);
 	const [ingredient, setIngredient] = React.useState(null);
 
@@ -32,19 +30,16 @@ export default function BurgerIngredients({ data }) {
 				<Category
 					className='pt-5'
 					type='bun'
-					data={data}
 					openIngredientDetails={openIngredientDetails}
 				/>
 				<Category
 					className='pt-5'
 					type='sauce'
-					data={data}
 					openIngredientDetails={openIngredientDetails}
 				/>
 				<Category
 					className='pt-5'
 					type='main'
-					data={data}
 					openIngredientDetails={openIngredientDetails}
 				/>
 			</ul>
@@ -59,6 +54,3 @@ export default function BurgerIngredients({ data }) {
 	)
 }
 
-BurgerIngredients.propTypes = {
-	data: PropTypes.arrayOf(ingredientProps).isRequired,
-}

@@ -3,25 +3,48 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import getProductData from '../api/api';
+import {
+  getProductData,
+  getOrderData,
+} from '../api/api';
+import {
+  DataContext,
+  OrderContext
+} from '../../contexts/appContext';
 
 export default function App() {
   const [data, setData] = React.useState([]);
+  const [order, setOrder] = React.useState({
+    name: '',
+    order: {
+      number: ''
+    },
+    success: false
+  });
+
+  function getOrder(ids) {
+    getOrderData(ids)
+      .then(res => setOrder(res))
+      .catch(e => console.log(`Упс, ошибка! ${e}`))
+  }
 
   React.useEffect(() => {
     getProductData()
       .then(res => setData(res.data))
       .catch(e => console.log(`Упс, ошибка! ${e}`))
-  },
-  []);
+  }, []);
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        <BurgerIngredients data={data} />
-        <BurgerConstructor data={data} />
-      </main>
-    </div>
+    <DataContext.Provider value={{ data, setData }}>
+      <div className={styles.app}>
+        <AppHeader />
+        <OrderContext.Provider value={{ order, getOrder }}>
+          <main className={styles.main}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </main>
+        </OrderContext.Provider>
+      </div>
+    </DataContext.Provider>
   );
 }

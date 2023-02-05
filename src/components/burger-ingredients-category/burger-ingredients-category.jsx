@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
-import ingredientProps from '../../untils/prop-types';
+import { DataContext } from '../../contexts/appContext';
 
-export default function BurgerIngredientsCategory({ type, data, openIngredientDetails }) {
+export default function BurgerIngredientsCategory({ type, openIngredientDetails }) {
+  const { data } = React.useContext(DataContext);
+
   const categories = {
     'bun': 'Булки',
     'sauce': 'Соусы',
@@ -31,7 +33,6 @@ export default function BurgerIngredientsCategory({ type, data, openIngredientDe
 
 BurgerIngredientsCategory.propTypes = {
   type: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(ingredientProps).isRequired,
   openIngredientDetails: PropTypes.func.isRequired,
 }
 
