@@ -36,15 +36,15 @@ export default function App() {
 
   return (
     <DataContext.Provider value={{ data, setData }}>
-      <OrderContext.Provider value={{ order, getOrder }}>
-        <div className={styles.app}>
-          <AppHeader />
+      <div className={styles.app}>
+        <AppHeader />
+        <OrderContext.Provider value={{ order, getOrder }}>
           <main className={styles.main}>
             <BurgerIngredients />
             <BurgerConstructor />
           </main>
-        </div>
-      </OrderContext.Provider>
+        </OrderContext.Provider>
+      </div>
     </DataContext.Provider>
   );
 }
