@@ -16,7 +16,7 @@ export default function BurgerIngredientsItem({ ingredient }) {
   const { bun, fillings } = useSelector(getBurgerConstructor);
 
   const openIngredientDetails = (e) => {
-		e.stopPropagation();
+    e.stopPropagation();
     dispatch({
       type: OPEN_INGREDIENT_DETAILS,
       ingredient: ingredient,

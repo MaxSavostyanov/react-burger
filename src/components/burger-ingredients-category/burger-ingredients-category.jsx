@@ -9,7 +9,7 @@ import { getBurgerIngredients } from '../../services/reducers';
 
 
 export default function BurgerIngredientsCategory({ type }) {
-  const {ingredients: data} = useSelector(getBurgerIngredients);
+  const { ingredients: data } = useSelector(getBurgerIngredients);
 
   const categories = {
     'bun': 'Булки',

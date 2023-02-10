@@ -4,71 +4,71 @@ import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './burger-constructor-filling.module.css'
 import {
-	DragIcon,
-	ConstructorElement
+  DragIcon,
+  ConstructorElement
 }
-	from '@ya.praktikum/react-developer-burger-ui-components';
+  from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientProps from '../../untils/prop-types';
 import { DELETE_FILLING, SWAP_FILLING } from '../../services/actions/burger-constructor';
 
 export default function ConstructorFilling({ ingredient, index }) {
-	const dispatch = useDispatch();
-	const ref = React.useRef(null);
+  const dispatch = useDispatch();
+  const ref = React.useRef(null);
 
-	const onDelete = () => {
-		dispatch({
-			type: DELETE_FILLING,
-			filling: ingredient,
-		});
-	};
+  const onDelete = () => {
+    dispatch({
+      type: DELETE_FILLING,
+      filling: ingredient,
+    });
+  };
 
-	const [{ opacity }, drag] = useDrag({
-		type: "filling",
-		item: { id: ingredient.id, index },
-		collect: (monitor) => {
-			return {
-				opacity: monitor.isDragging() ? 0.5 : 1,
-			};
-		},
-	});
+  const [{ opacity }, drag] = useDrag({
+    type: "filling",
+    item: { id: ingredient.id, index },
+    collect: (monitor) => {
+      return {
+        opacity: monitor.isDragging() ? 0.5 : 1,
+      };
+    },
+  });
 
-	const [, drop] = useDrop({
-		accept: "filling",
-		hover(ingredient) {
-			if (!ref.current) {
-				return;
-			}
-			const dragIndex = ingredient.index;
-			const dropIndex = index;
-			dispatch({
-				type: SWAP_FILLING,
-				dragIndex,
-				dropIndex,
-			});
-			ingredient.index = dropIndex;
-		},
-	});
+  const [, drop] = useDrop({
+    accept: "filling",
+    hover(ingredient) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = ingredient.index;
+      const dropIndex = index;
+      dispatch({
+        type: SWAP_FILLING,
+        dragIndex,
+        dropIndex,
+      });
+      ingredient.index = dropIndex;
+    },
+  });
 
-	drag(drop(ref));
+  drag(drop(ref));
 
-	return (
-		<li
-			ref={ref}
-			className={`${styles.filling} pt-4 pr-2`}
-			style={{ opacity }}
-		>
-			<DragIcon type='primary' />
-			<ConstructorElement
-				text={ingredient.name}
-				price={ingredient.price}
-				thumbnail={ingredient.image}
-				handleClose={(() => onDelete(ingredient))}
-			/>
-		</li>
-	)
+  return (
+    <li
+      ref={ref}
+      className={`${styles.filling} pt-4 pr-2`}
+      style={{ opacity }}
+    >
+      <DragIcon type='primary' />
+      <ConstructorElement
+        text={ingredient.name}
+        price={ingredient.price}
+        thumbnail={ingredient.image}
+        handleClose={(() => onDelete(ingredient))}
+      />
+    </li>
+  )
 }
 
 ConstructorFilling.propTypes = {
-	ingredient: ingredientProps.isRequired,
-	index: PropTypes.number.isRequired,
+  ingredient: ingredientProps.isRequired,
+  index: PropTypes.number.isRequired,
 }
