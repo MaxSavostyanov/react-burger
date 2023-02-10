@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients-item.module.css';
@@ -9,11 +8,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientProps from '../../untils/prop-types';
 import { OPEN_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
+import { getBurgerConstructor } from '../../services/reducers';
 
 export default function BurgerIngredientsItem({ ingredient }) {
   const dispatch = useDispatch();
 
-  const { bun, fillings } = useSelector(store => store.burgerConstructor);
+  const { bun, fillings } = useSelector(getBurgerConstructor);
 
   const openIngredientDetails = (e) => {
 		e.stopPropagation();

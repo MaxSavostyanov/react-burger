@@ -20,12 +20,13 @@ import {
   CLOSE_ORDER_DETAILS,
   getOrder,
 } from '../../services/actions/order-details';
+import { getBurgerConstructor, getOrderDetails } from '../../services/reducers';
 
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
-  const { bun, fillings, totalPrice } = useSelector(store => store.burgerConstructor);
-  const { order } = useSelector(store => store.orderDetails);
+  const { bun, fillings, totalPrice } = useSelector(getBurgerConstructor);
+  const { order } = useSelector(getOrderDetails);
 
   const getBurgerIDs = () => {
     const ids = fillings.map(filling => filling._id);

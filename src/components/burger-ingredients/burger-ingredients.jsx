@@ -7,57 +7,58 @@ import Category from '../burger-ingredients-category/burger-ingredients-category
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
+import { getIngredientDetails } from '../../services/reducers';
 
 export default function BurgerIngredients() {
-	const dispatch = useDispatch();
-	const { openIngredient } = useSelector(store => store.ingredientDetails);
+  const dispatch = useDispatch();
+  const { openIngredient } = useSelector(getIngredientDetails);
 
-	const closeIngredientDetails = () => {
-		dispatch({
-			type: CLOSE_INGREDIENT_DETAILS,
-		});
-	};
+  const closeIngredientDetails = () => {
+    dispatch({
+      type: CLOSE_INGREDIENT_DETAILS,
+    });
+  };
 
-	const [bunRef, bunInView] = useInView({ threshold: .05 });
-	const [sauceRef, sauceInView] = useInView({ threshold: .05 });
-	const [mainRef, mainInView] = useInView({ threshold: .05 });
+  const [bunRef, bunInView] = useInView({ threshold: .05 });
+  const [sauceRef, sauceInView] = useInView({ threshold: .05 });
+  const [mainRef, mainInView] = useInView({ threshold: .05 });
 
-	return (
-		<section className={`${styles.section} pl-5 pr-5`}>
-			<h1 className='text text_type_main-large pt-10'>
-				Соберите бургер
-			</h1>
+  return (
+    <section className={`${styles.section} pl-5 pr-5`}>
+      <h1 className='text text_type_main-large pt-10'>
+        Соберите бургер
+      </h1>
 
-			<Tabs inViews={{ bunInView, sauceInView, mainInView }} />
+      <Tabs inViews={{ bunInView, sauceInView, mainInView }} />
 
-			<ul className={`${styles.list}`}>
-				<div ref={bunRef}>
-					<Category
-						className='pt-5'
-						type='bun'
-					/>
-				</div>
+      <ul className={`${styles.list}`}>
+        <div ref={bunRef}>
+          <Category
+            className='pt-5'
+            type='bun'
+          />
+        </div>
 
-				<div ref={sauceRef}>
-					<Category
-						className='pt-5'
-						type='sauce'
-					/>
-				</div>
+        <div ref={sauceRef}>
+          <Category
+            className='pt-5'
+            type='sauce'
+          />
+        </div>
 
-				<div ref={mainRef}>
-					<Category
-						className='pt-5'
-						type='main'
-					/>
-				</div>
-			</ul>
+        <div ref={mainRef}>
+          <Category
+            className='pt-5'
+            type='main'
+          />
+        </div>
+      </ul>
 
-			{!!openIngredient && (
-				<Modal closeModal={closeIngredientDetails}>
-					<IngredientDetails ingredient={openIngredient} />
-				</Modal>
-			)}
-		</section >
-	)
+      {!!openIngredient && (
+        <Modal closeModal={closeIngredientDetails}>
+          <IngredientDetails ingredient={openIngredient} />
+        </Modal>
+      )}
+    </section >
+  )
 }

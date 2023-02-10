@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import uuid from 'react-uuid';
 import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
+import { getBurgerIngredients } from '../../services/reducers';
+
+
 
 export default function BurgerIngredientsCategory({ type }) {
-  const data = useSelector(store => store.burgerIngredients.ingredients);
+  const {ingredients: data} = useSelector(getBurgerIngredients);
 
   const categories = {
     'bun': 'Булки',
