@@ -33,6 +33,8 @@
 ### Функционал
 - Просмотр деталей заказа, понажатию на кнопку «Оформить заказ»;
 - Просмотр подробной информации об ингридиете, понажатию на карточку с игридиентом;
+- Добавление ингредиентов в контруктор перетаскиванием
+- Изменение порядка ингридентов перетаскиванием
 
 ---
 ### Технологии и инструменты
@@ -43,14 +45,16 @@
 - Flexbox
 - Grid
 - JavaScript
-- React 
+- React
+- Redux
+- React DND 
 - Webpack
 - Babel
 - PostCSS
 ---
 ### Требования к проекту
 
-Проект должен соответствовать [чек-листу](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_7.pdf) и [стандарту Яндекс.Практиму по офорлению HTML и CSS кода](https://code.s3.yandex.net/web-developer/static/design-rules/index.html).
+Проект должен соответствовать [чек-листу](https://code.s3.yandex.net/web-plus/checklists/checklist_pdf/checklist_8.pdf) и [стандарту Яндекс.Практиму по офорлению HTML и CSS кода](https://code.s3.yandex.net/web-developer/static/design-rules/index.html).
 
 ---
 ### Figma

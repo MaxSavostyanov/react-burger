@@ -1,11 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
-import { DataContext } from '../../contexts/appContext';
 
-export default function BurgerIngredientsCategory({ type, openIngredientDetails }) {
-  const { data } = React.useContext(DataContext);
+export default function BurgerIngredientsCategory({ type }) {
+  const data = useSelector(store => store.burgerIngredients.ingredients);
 
   const categories = {
     'bun': 'Булки',
@@ -21,9 +22,8 @@ export default function BurgerIngredientsCategory({ type, openIngredientDetails 
       <ul className={`${styles.list} pr-1`}>
         {ingredients.map((ingredient) => (
           <Item
-            key={ingredient._id}
+            key={uuid()}
             ingredient={ingredient}
-            openIngredientDetails={openIngredientDetails}
           />
         ))}
       </ul>
@@ -33,6 +33,5 @@ export default function BurgerIngredientsCategory({ type, openIngredientDetails 
 
 BurgerIngredientsCategory.propTypes = {
   type: PropTypes.string.isRequired,
-  openIngredientDetails: PropTypes.func.isRequired,
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from './order-details.module.css'
 import icon from '../../images/icon-done.svg'
-import { OrderContext } from '../../contexts/appContext';
 
 export default function OrderDetails() {
-	const { order } = React.useContext(OrderContext);
+	const { order } = useSelector(store => store.orderDetails);
 
 	return (
 		<div className={`${styles.container} pt-20 pb-20`}>
