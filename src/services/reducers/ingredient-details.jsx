@@ -1,6 +1,6 @@
-import { 
-  OPEN_INGREDIENT_DETAILS, 
-	CLOSE_INGREDIENT_DETAILS, 
+import {
+  OPEN_INGREDIENT_DETAILS,
+  CLOSE_INGREDIENT_DETAILS,
 } from '../actions/ingredient-details';
 
 const initialState = {
@@ -10,18 +10,15 @@ const initialState = {
 export const ingredientDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case OPEN_INGREDIENT_DETAILS: {
-			return {
-				...state,
-				openIngredient: action.ingredient,
-			};
-		}
-    
-		case CLOSE_INGREDIENT_DETAILS: {
-			return {
-				...state,
-				openIngredient: null,
-			};
-		}
+      return {
+        ...state,
+        openIngredient: action.ingredient,
+      };
+    }
+
+    case CLOSE_INGREDIENT_DETAILS: {
+      return initialState;
+    }
 
     default: {
       return state;

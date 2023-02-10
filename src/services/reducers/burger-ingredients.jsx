@@ -30,12 +30,11 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
     }
 
     case BURGER_INGREDIENTS_FAILED: {
-			return {
-				...state,
-        ingredientsRequest: false,
-				ingredientsFailed: true,
-			};
-		}
+      return {
+        ...initialState,
+        ingredientsFailed: true,
+      };
+    }
 
     default: {
       return state;

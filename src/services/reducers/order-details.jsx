@@ -7,7 +7,7 @@ import {
 
 
 const initialState = {
-  number: null,
+  order: null,
   orderDetailsRequest: false,
   orderDetailsFailed: false,
 };
@@ -29,24 +29,18 @@ export const orderDetailsReducer = (state = initialState, action) => {
         order: action.order,
         orderDetailsFailed: false,
         orderDetailsRequest: false,
-
       };
     }
 
     case ORDER_DETAILS_FAILED: {
       return {
-        ...state,
-        orderDetailsRequest: false,
+        ...initialState,
         orderDetailsFailed: true,
-
       };
     }
 
     case CLOSE_ORDER_DETAILS: {
-      return {
-        ...state,
-        order: null,
-      };
+      return initialState;
     }
 
     default: {
