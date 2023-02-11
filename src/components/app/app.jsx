@@ -1,50 +1,29 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import {
-  getProductData,
-  getOrderData,
-} from '../api/api';
-import {
-  DataContext,
-  OrderContext
-} from '../../contexts/appContext';
+import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 
 export default function App() {
-  const [data, setData] = React.useState([]);
-  const [order, setOrder] = React.useState({
-    name: '',
-    order: {
-      number: ''
-    },
-    success: false
-  });
-
-  function getOrder(ids) {
-    getOrderData(ids)
-      .then(res => setOrder(res))
-      .catch(e => console.log(`Упс, ошибка! ${e}`))
-  }
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    getProductData()
-      .then(res => setData(res.data))
-      .catch(e => console.log(`Упс, ошибка! ${e}`))
-  }, []);
+    dispatch(getBurgerIngredients());
+  }, [dispatch]);
 
   return (
-    <DataContext.Provider value={{ data, setData }}>
-      <div className={styles.app}>
-        <AppHeader />
-        <OrderContext.Provider value={{ order, getOrder }}>
-          <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </main>
-        </OrderContext.Provider>
-      </div>
-    </DataContext.Provider>
+    <div className={styles.app}>
+      <AppHeader />
+      <main className={styles.main}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
+      </main>
+    </div>
   );
 }

@@ -1,4 +1,7 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import uuid from 'react-uuid';
+import { useDrop } from 'react-dnd';
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -9,15 +12,21 @@ import ConstructorFilling from '../burger-constructor-filling/burger-constructor
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { DataContext, OrderContext } from '../../contexts/appContext';
+import {
+  ADD_BUN,
+  ADD_FILLING,
+} from '../../services/actions/burger-constructor';
+import {
+  CLOSE_ORDER_DETAILS,
+  getOrder,
+} from '../../services/actions/order-details';
+import { getBurgerConstructor, getOrderDetails } from '../../services/reducers';
 
 
 export default function BurgerConstructor() {
-  const { data } = React.useContext(DataContext);
-  const { getOrder } = React.useContext(OrderContext);
-
-  const bun = React.useMemo(() => data.find((item) => item.type === 'bun'), [data]);
-  const fillings = React.useMemo(() => data.filter((item) => item.type !== 'bun' && Math.round(Math.random())), [data]);
+  const dispatch = useDispatch();
+  const { bun, fillings, totalPrice } = useSelector(getBurgerConstructor);
+  const { order } = useSelector(getOrderDetails);
 
   const getBurgerIDs = () => {
     const ids = fillings.map(filling => filling._id);
@@ -25,45 +34,67 @@ export default function BurgerConstructor() {
     return ids;
   };
 
-  const totalPrice = React.useMemo(() => fillings.reduce((sum, item) => sum + item.price, bun ? (bun.price * 2) : 0), [bun, fillings]);
-
-  const [isOpenedModal, setIsOpenedModal] = React.useState(false);
-
   const openOrderDetails = (e) => {
     e.stopPropagation();
-    setIsOpenedModal(true);
+    dispatch(getOrder(getBurgerIDs()));
   };
 
   const closeOrderDetails = () => {
-    setIsOpenedModal(false);
+    dispatch({
+      type: CLOSE_ORDER_DETAILS,
+    });
   };
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      if (item.ingredient.type === "bun") {
+        dispatch({
+          type: ADD_BUN,
+          bun: item.ingredient,
+        });
+      } else {
+        dispatch({
+          type: ADD_FILLING,
+          filling: { ...item.ingredient, id: uuid() },
+        });
+      }
+    },
+  });
 
   return (
     <section className={`${styles.section} pl-5 pt-25 pr-5`}>
-      <div className={`${styles.container} pl-4`}>
+      <div className={`${styles.container} pl-4`} ref={dropTarget}>
         <div className='pr-4 pb-4 pl-8'>
-          {bun && <ConstructorElement
-            type='top'
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />}
+          {!bun.price
+            ? (<p className='text text_type_main-medium pr-2'>1. Перетащите сюда понравившуюся булочку</p>)
+            : (<ConstructorElement
+              type='top'
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />)
+          }
         </div>
 
         <ul className={`${styles.list}`}>
-          {fillings.map((ingredient) => {
-            return ingredient
-              ? (<ConstructorFilling
-                key={ingredient._id}
-                ingredient={ingredient}
-              />)
-              : null;
-          })}
+          {fillings.length === 0
+            ? <p className='text text_type_main-medium pl-8 pt-4'>2. Перетащите сюда понравившуюся начинку</p>
+            : fillings.map((filling, index) => {
+              return filling
+                ? (<ConstructorFilling
+                  key={filling.id}
+                  index={index}
+                  ingredient={filling}
+                />)
+                : null;
+            })}
         </ul>
 
+
         <div className='pt-4 pr-4 pl-8'>
-          {bun && <ConstructorElement
+          {!!bun.price && <ConstructorElement
             type='bottom'
             isLocked={true}
             text={`${bun.name} (низ)`}
@@ -87,15 +118,15 @@ export default function BurgerConstructor() {
           type='primary'
           size='large'
           onClick={(e) => {
-            getOrder(getBurgerIDs());
             openOrderDetails(e);
           }}
+          disabled={!bun.price}
         >
           Оформить заказ
         </Button>
       </div>
 
-      {isOpenedModal && (
+      {!!order && (
         <Modal closeModal={closeOrderDetails}>
           <OrderDetails />
         </Modal>
