@@ -9,7 +9,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 import {
-  Login
+  Login,
+  Register,
 } from '../../pages/index'
 
 export default function App() {
@@ -32,9 +33,10 @@ export default function App() {
           </main>
         } />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         {/* 
           
-          <Route path="/register" element={<Register />} />
+          
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />        
           <Route path="/profile" element={<ProfilePage />} />        
