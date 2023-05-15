@@ -12,6 +12,7 @@ import {
   Login,
   Register,
   ForgotPassword,
+  ResetPassword,
 } from '../../pages/index'
 
 export default function App() {
@@ -36,11 +37,12 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         {/* 
           
           
           
-          <Route path="/reset-password" element={<ResetPassword />} />        
+                  
           <Route path="/profile" element={<ProfilePage />} />        
           <Route path="*" element={<NotFound404 />} />        
         */}

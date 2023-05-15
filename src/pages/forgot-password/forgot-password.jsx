@@ -16,7 +16,7 @@ export const ForgotPassword = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={`${styles.title} text text_type_main-medium pb-6`}>Регистрация</h2>
+      <h2 className={`${styles.title} text text_type_main-medium pb-6`}>Восстановление пароля</h2>
 
       <form className={`${styles.form} pb-20`}>
         <div className="pb-6">
