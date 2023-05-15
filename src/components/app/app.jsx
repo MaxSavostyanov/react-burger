@@ -8,6 +8,9 @@ import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
+import {
+  Login
+} from '../../pages/index'
 
 export default function App() {
   const dispatch = useDispatch();
@@ -28,9 +31,9 @@ export default function App() {
             </DndProvider>
           </main>
         } />
-
+        <Route path="/login" element={<Login />} />
         {/* 
-          <Route path="/login" element={<Login />} />
+          
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />        
