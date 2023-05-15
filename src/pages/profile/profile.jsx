@@ -23,7 +23,7 @@ export const Profile = () => {
   }
 
   return (
-    <div className={`${styles.container} pt-30 pl-5`}>
+    <div className={`${styles.container} pt-30 pl-10`}>
       <nav className={styles.nav}>
         <ul className={styles.list}>
           <li className={styles.item}>
