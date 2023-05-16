@@ -8,6 +8,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
+import { ProtectedRoute } from '../protected-route/protected-route';
 import {
   Login,
   Register,
@@ -46,8 +47,23 @@ export default function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='*' element={<NotFound404 />} /> 
+        <Route
+          path='/profile'
+          element={<ProtectedRoute element={<Profile />} />}
+        />
+        <Route
+          path='/profile/orders'
+          element={<ProtectedRoute element={<NotFound404 />} />}
+        />
+        <Route
+          path='/profile/orders/:id'
+          element={<ProtectedRoute element={<NotFound404 />} />}
+        />
+        <Route
+          path='/feed'
+          element={<ProtectedRoute element={<NotFound404 />} />}
+        />
+        <Route path='*' element={<NotFound404 />} />
       </Routes>
     </div>
   );

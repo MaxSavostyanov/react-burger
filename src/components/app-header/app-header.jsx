@@ -28,7 +28,7 @@ export default function AppHeader() {
           </NavLink>
 
           <NavLink
-            to='/profile/orders'
+            to='/feed'
             className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
             activeClassName={`${styles.btn_active}`}
           >
