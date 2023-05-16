@@ -51,3 +51,13 @@ export const setNewUser = async (user) => {
   })
     .then(checkResponse)
 }
+
+export function loginRequest(user) {
+  return fetch(URL.login, {
+    method: 'POST',
+    body: JSON.stringify(user),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(checkResponse);
+}

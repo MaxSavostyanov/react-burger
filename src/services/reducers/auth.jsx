@@ -2,6 +2,10 @@ import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILED,
+
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
 } from '../actions/auth';
 
 const initialState = {
@@ -9,6 +13,9 @@ const initialState = {
 
   registrationRequest: false,
   registrationFailed: false,
+
+  loginRequest: false,
+  loginFailed: false,
 
 };
 
@@ -34,6 +41,28 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: false,
         registrationFailed: true,
+      };
+    }
+
+    case LOGIN_REQUEST: {
+      return {
+        ...state,
+        loginRequest: true,
+      };
+    }
+    case LOGIN_SUCCESS: {
+      return {
+        ...state,
+        userData: action.user,
+        loginRequest: false,
+        loginFailed: false,
+      };
+    }
+    case LOGIN_FAILED: {
+      return {
+        ...state,
+        loginFailed: true,
+        loginRequest: false,
       };
     }
 
