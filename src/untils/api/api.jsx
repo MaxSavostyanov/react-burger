@@ -64,10 +64,30 @@ export function loginRequest(user) {
 
 export function logoutRequest(refreshToken) {
   return fetch(URL.logout, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    method: 'POST',
     body: JSON.stringify({ token: refreshToken }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(checkResponse);
+}
+
+export function resetPasswordRequest(data) {
+  return fetch(URL.forgotPassword, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(checkResponse);
+}
+
+export function changePasswordRequest(data) {
+  return fetch(URL.resetPassword, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }).then(checkResponse);
 }

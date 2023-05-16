@@ -10,6 +10,16 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
+  SEND_EMAIL,
+
 } from '../actions/auth';
 
 const initialState = {
@@ -23,6 +33,15 @@ const initialState = {
 
   logoutRequest: false,
   logoutFailed: false,
+
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
+  forgotPasswordSuccess: false,
+  isReset: false,
+
+  resetPasswordRequest: false,
+  resetPasswordFailed: false,
+  resetPasswordSuccess: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -90,6 +109,62 @@ export const authReducer = (state = initialState, action) => {
         logoutRequest: false,
         logoutFailed: true,
       };
+
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        forgotPasswordRequest: true,
+        isReset: false,
+      };
+    }
+    case FORGOT_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordSuccess: true,
+        forgotPasswordFailed: false,
+      };
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: true,
+        forgotPasswordSuccess: false,
+        isReset: false,
+      };
+    }
+    case SEND_EMAIL: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordSuccess: true,
+        forgotPasswordFailed: false,
+        isReset: true,
+      };
+    }
+
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        resetPasswordRequest: true,
+      };
+    }
+    case RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordSuccess: true,
+        resetPasswordFailed: false,
+      };
+    }
+    case RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: true,
+      };
+    }
 
     default: {
       return state;

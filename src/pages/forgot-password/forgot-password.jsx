@@ -1,43 +1,54 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './forgot-password.module.css';
+import { forgotPassword, SEND_EMAIL } from '../../services/actions/auth';
 
 export const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [form, setEmail] = useState({ email: '' });
 
-  const onChangeEmail = e => {
-    setEmail(e.target.value);
-  }
+  const onChange = (e) => {
+    setEmail({ email: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(forgotPassword(form, navigate));
+    dispatch({ type: SEND_EMAIL });
+  };
 
   return (
     <div className={styles.container}>
       <h2 className={`${styles.title} text text_type_main-medium pb-6`}>Восстановление пароля</h2>
 
-      <form className={`${styles.form} pb-20`}>
-        <div className="pb-6">
+      <form className={`${styles.form} pb-20`} onSubmit={onSubmit}>
+        <div className='pb-6'>
           <Input
             type={'email'}
             placeholder={'Укажите e-mail'}
-            onChange={onChangeEmail}
-            value={email}
+            onChange={onChange}
+            value={form.email}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
+            required
           />
         </div>
 
-        <Button type="primary" size="medium">
+        <Button htmlType='submit' type='primary' size='medium'>
           Восстановить
         </Button>
       </form>
-      
-      <p className="text text_type_main-default text_color_inactive pb-4">
+
+      <p className='text text_type_main-default text_color_inactive pb-4'>
         Вспомнили пароль?
         <Link
           className={`${styles.link} pl-2`}
@@ -45,5 +56,6 @@ export const ForgotPassword = () => {
           Войти
         </Link>
       </p>
-    </div >)
+    </div>
+  )
 }
