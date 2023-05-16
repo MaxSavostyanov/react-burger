@@ -61,3 +61,13 @@ export function loginRequest(user) {
     },
   }).then(checkResponse);
 }
+
+export function logoutRequest(refreshToken) {
+  return fetch(URL.logout, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token: refreshToken }),
+  }).then(checkResponse);
+}

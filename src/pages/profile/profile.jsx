@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import {
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './profile.module.css';
+import { logOut } from '../../services/actions/auth';
 
 export const Profile = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,6 +25,10 @@ export const Profile = () => {
   const onChangePassword = e => {
     setPassword(e.target.value);
   }
+
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
 
   return (
     <div className={`${styles.container} pt-30 pl-10`}>
@@ -49,6 +57,7 @@ export const Profile = () => {
           <li className={styles.item}>
             <NavLink
               to='/'
+              onClick={handleLogout}
               className={`${styles.link} text text_type_main-medium text_color_inactive`}
               activeClassName={`${styles.linkActive} text text_type_main-medium`}
             >
