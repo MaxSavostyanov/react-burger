@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Input,
   EmailInput,
@@ -7,63 +8,66 @@ import {
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './register.module.css';
+import { registerNewUser } from '../../services/actions/auth';
 
 export const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const onChangeName = e => {
-    setName(e.target.value);
-  }
+  const [form, setValue] = useState({ email: '', password: '', name: '' });
 
-  const onChangeEmail = e => {
-    setEmail(e.target.value);
-  }
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const onChangePassword = e => {
-    setPassword(e.target.value);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerNewUser(form, navigate));
   }
 
   return (
     <div className={styles.container}>
       <h2 className={`${styles.title} text text_type_main-medium pb-6`}>Регистрация</h2>
 
-      <form className={`${styles.form} pb-20`}>
-        <div className="pb-6">
+      <form className={`${styles.form} pb-20`} onSubmit={onSubmit}>
+        <div className='pb-6'>
           <Input
             type={'text'}
             placeholder={'Имя'}
-            onChange={onChangeName}
-            value={name}
+            onChange={onChange}
+            value={form.name}
             name={'name'}
             error={false}
             size={'default'}
           />
         </div>
 
-        <div className="pb-6">
+        <div className='pb-6'>
           <EmailInput
-            onChange={onChangeEmail}
-            value={email}
+            onChange={onChange}
+            value={form.email}
             name={'email'}
-            size="default" />
+            size='default' />
         </div>
 
-        <div className="pb-6">
+        <div className='pb-6'>
           <PasswordInput
-            onChange={onChangePassword}
-            value={password}
+            onChange={onChange}
+            value={form.password}
             name={'password'}
-            size="default" />
+            size='default' />
         </div>
 
-        <Button type="primary" size="medium">
+        <Button 
+          htmlType='submit'
+          type='primary'
+          size='medium'
+        >
           Зарегистрироваться
         </Button>
       </form>
 
-      <p className="text text_type_main-default text_color_inactive pb-4">
+      <p className='text text_type_main-default text_color_inactive pb-4'>
         Уже зарегистрированы?
         <Link
           className={`${styles.link} pl-2`}
@@ -71,5 +75,6 @@ export const Register = () => {
           Войти
         </Link>
       </p>
-    </div >)
+    </div>
+  )
 }

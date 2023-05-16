@@ -14,6 +14,7 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
+  NotFound404,
 } from '../../pages/index'
 
 export default function App() {
@@ -40,14 +41,7 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
-        {/* 
-          
-          
-          
-                  
-                  
-          <Route path="*" element={<NotFound404 />} />        
-        */}
+        <Route path="*" element={<NotFound404 />} /> 
       </Routes>
     </div>
   );
