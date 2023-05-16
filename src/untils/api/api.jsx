@@ -91,3 +91,34 @@ export function changePasswordRequest(data) {
     },
   }).then(checkResponse);
 }
+
+export function getUserRequest(accessToken) {
+  return fetch(URL.user, {
+    headers: {
+      authorization: accessToken,
+    },
+  }).then(checkResponse);
+}
+
+export function updateUserRequest(data, accessToken) {
+  return fetch(URL.user, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: accessToken,
+    },
+  }).then(checkResponse);
+}
+
+export function updateTokenRequest() {
+  return fetch(URL.token, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem('refreshToken'),
+    }),
+  }).then((data) => checkResponse(data));   
+}

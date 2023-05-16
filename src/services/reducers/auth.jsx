@@ -20,6 +20,16 @@ import {
   RESET_PASSWORD_FAILED,
   SEND_EMAIL,
 
+  GET_USER_FAILED,
+	GET_USER_REQUEST,
+	GET_USER_SUCCESS,
+
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
+  IS_CHANGED,
+  STOP_CHANGE,
+
 } from '../actions/auth';
 
 const initialState = {
@@ -42,6 +52,13 @@ const initialState = {
   resetPasswordRequest: false,
   resetPasswordFailed: false,
   resetPasswordSuccess: false,
+
+  getUserRequest: false,
+	getUserFailed: false,
+
+  updateUserRequest: false,
+  updateUserFailed: false,
+  isChanged: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -163,6 +180,63 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         resetPasswordRequest: false,
         resetPasswordFailed: true,
+      };
+    }
+
+    case GET_USER_REQUEST: {
+			return {
+				...state,
+				getUserFailed: false,
+				getUserRequest: true,
+			};
+		}
+		case GET_USER_FAILED: {
+			return {
+				...state,
+				getUserFailed: true,
+				getUserRequest: false,
+			};
+		}
+		case GET_USER_SUCCESS: {
+			return {
+				...state,
+				user: {...state.userData, user: action.user},
+				getUserRequest: false,
+				getUserFailed: false,
+			};
+		}
+
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        updateUserRequest: true,
+      };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return {
+        ...state,
+        userData: {...state.userData, user: action.user},
+        updateUserRequest: false,
+        updateUserFailed: false,
+      };
+    }
+    case UPDATE_USER_FAILED: {
+      return {
+        ...state,
+        updateUserRequest: false,
+        updateUserFailed: true,
+      };
+    }
+    case IS_CHANGED: {
+      return {
+        ...state,
+        isChanged: true,
+      };
+    }
+    case STOP_CHANGE: {
+      return {
+        ...state,
+        isChanged: false,
       };
     }
 

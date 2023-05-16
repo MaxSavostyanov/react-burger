@@ -16,19 +16,25 @@ import {
   Profile,
   NotFound404,
 } from '../../pages/index'
+import { getUserData, checkAuth } from '../../services/actions/auth';
 
 export default function App() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(getBurgerIngredients());
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    dispatch(getUserData());
   }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
       <Routes>
-        <Route path="/" element={
+        <Route path='/' element={
           <main className={styles.main}>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients />
@@ -36,12 +42,12 @@ export default function App() {
             </DndProvider>
           </main>
         } />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="*" element={<NotFound404 />} /> 
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='*' element={<NotFound404 />} /> 
       </Routes>
     </div>
   );

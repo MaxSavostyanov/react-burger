@@ -4,6 +4,9 @@ import {
   logoutRequest,
   resetPasswordRequest,
   changePasswordRequest,
+  updateUserRequest,
+  getUserRequest,
+  updateTokenRequest,
 } from '../../untils/api/api';
 import {
   setCookie,
@@ -32,6 +35,17 @@ export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 export const SEND_EMAIL = 'SEND_EMAIL';
 
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
+
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+
+export const IS_CHANGED = 'IS_CHANGED';
+export const STOP_CHANGE = 'STOP_CHANGE';
+
 export function registerNewUser(user, navigate) {
   return function (dispatch) {
     dispatch({ type: REGISTRATION_REQUEST });
@@ -53,7 +67,7 @@ export function registerNewUser(user, navigate) {
   };
 }
 
-export function logIn (user, navigate) {
+export function logIn(user, navigate) {
   return function (dispatch) {
     dispatch({ type: LOGIN_REQUEST });
     loginRequest(user)
@@ -100,7 +114,7 @@ export function forgotPassword(email, navigate) {
     resetPasswordRequest(email)
       .then((res) => {
         if (res.success) {
-          dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: res });
+          dispatch({ type: FORGOT_PASSWORD_SUCCESS });
           navigate('/reset-password');
         }
       })
@@ -132,3 +146,55 @@ export function setNewPassword(password, navigate) {
       });
   };
 }
+
+export function getUserData() {
+  return function (dispatch) {
+    dispatch({ type: GET_USER_REQUEST });
+    return getUserRequest(getCookie('accessToken'))
+      .then((res) => {
+        dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+      })
+      .catch((e) => {
+        console.log(`Упс, ошибка! ${e}`);
+        dispatch({
+          type: GET_USER_FAILED,
+        });
+      });
+  };
+}
+
+export function setChangedUser(data) {
+  return function (dispatch) {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    updateUserRequest(data, getCookie('accessToken'))
+      .then((res) => {
+        dispatch({ type: UPDATE_USER_SUCCESS, user: res.user });
+        console.log(`%c Данные пользоватетеля изменены!`, 'color: green');
+      })
+      .catch((e) => {
+        console.log(`Упс, ошибка! ${e}`);
+        dispatch({
+          type: UPDATE_USER_FAILED,
+        });
+      });
+  };
+}
+
+export function updateToken() {
+  return updateTokenRequest()
+    .then((res) => {
+      setCookie('accessToken', res.accessToken);
+      localStorage.setItem('refreshToken', res.refreshToken);
+    })
+    .catch((e) => {
+      console.log(`Упс, ошибка! ${e}`);
+    });
+}
+
+export const checkAuth = () => (dispatch) => {
+  if (!getCookie('accessToken') && localStorage.getItem('refreshToken')) {
+    dispatch(updateToken())
+  } else {
+    dispatch(getUserData());
+  }
+};

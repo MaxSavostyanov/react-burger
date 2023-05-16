@@ -1,30 +1,45 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   Input,
+  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './profile.module.css';
-import { logOut } from '../../services/actions/auth';
+import {
+  logOut,
+  IS_CHANGED,
+  STOP_CHANGE,
+  setChangedUser,
+} from '../../services/actions/auth';
+import { getAuthData } from '../../services/reducers';
 
 export const Profile = () => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { userData, isChanged } = useSelector(getAuthData);
+  console.log(userData);
+  const name = userData.user.name;
+  const email = userData.user.email;
 
-  const onChangeName = e => {
-    setName(e.target.value);
-  }
+  const [change, setChange] = useState({ name: name, email: email, password: '' });
 
-  const onChangeEmail = e => {
-    setEmail(e.target.value);
-  }
+  const onChange = (e) => {
+    dispatch({ type: IS_CHANGED });
+    setChange({ ...change, [e.target.name]: e.target.value });
+  };
 
-  const onChangePassword = e => {
-    setPassword(e.target.value);
-  }
+  const onResetChanges = () => {
+    setChange({ name: name, email: email, password: '' });
+    dispatch({ type: STOP_CHANGE });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setChangedUser(change));
+    setChange({ ...change, password: '' });
+    dispatch({ type: STOP_CHANGE });
+  };
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -71,14 +86,14 @@ export const Profile = () => {
         </p>
       </nav>
 
-      <form className={`${styles.form} pl-15`}>
-        <div className="pb-6">
+      <form className={`${styles.form} pl-15`} onSubmit={onSubmit}>
+        <div className='pb-6'>
           <Input
             type={'text'}
             placeholder={'Имя'}
-            onChange={onChangeName}
+            onChange={onChange}
             icon={'EditIcon'}
-            value={name}
+            value={change.name}
             name={'name'}
             error={false}
             errorText={'Ошибка'}
@@ -86,13 +101,13 @@ export const Profile = () => {
           />
         </div>
 
-        <div className="pb-6">
+        <div className='pb-6'>
           <Input
             type={'email'}
             placeholder={'Логин'}
-            onChange={onChangeEmail}
+            onChange={onChange}
             icon={'EditIcon'}
-            value={email}
+            value={change.email}
             name={'email'}
             error={false}
             errorText={'Ошибка'}
@@ -100,19 +115,40 @@ export const Profile = () => {
           />
         </div>
 
-        <div className="pb-6">
+        <div className='pb-6'>
           <Input
             type={'password'}
             placeholder={'Пароль'}
-            onChange={onChangePassword}
+            onChange={onChange}
             icon={'EditIcon'}
-            value={password}
+            value={change.password}
             name={'password'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
           />
         </div>
+
+        {isChanged && (
+          <div>
+            <Button
+              htmlType='submit'
+              type='primary'
+              size='medium'
+            >
+              Сохранить
+            </Button>
+
+            <Button
+              onClick={onResetChanges}
+              htmlType='button'
+              type='secondary'
+              size='medium'
+            >
+              Отмена
+            </Button>
+          </div>
+        )}
       </form>
     </div >
   )
