@@ -17,7 +17,7 @@ export default function Modal({
 }) {
   function handleEcsClose(e) {
     if (e.key === 'Escape') {
-      closeModal();
+      closeModal(e);
     }
   }
 
