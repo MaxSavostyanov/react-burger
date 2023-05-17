@@ -1,5 +1,7 @@
 # Проект: Stellar Burgers
 
+## [Проект на GitHub Pages](https://maxsavostyanov.github.io/react-burger/)
+
 ### Обзор
 * [О проекте](#о-проекте)
 * [Установка](#установка)
