@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import {
   Logo,
   BurgerIcon,
@@ -41,9 +41,9 @@ export default function AppHeader() {
 
         </div>
 
-        <div className={styles.logo}>
+        <Link to='/' className={styles.logo}>
           <Logo />
-        </div>
+        </Link>
 
         <div className={`${styles.btns} ${styles.btns_right}`}>
           <NavLink
