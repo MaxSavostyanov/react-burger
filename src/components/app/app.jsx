@@ -29,7 +29,6 @@ export default function App() {
 
   React.useEffect(() => {
     dispatch(getBurgerIngredients());
-    console.log('ing получены');
   }, [dispatch]);
 
   React.useEffect(() => {

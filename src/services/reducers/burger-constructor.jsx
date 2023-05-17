@@ -2,7 +2,8 @@ import {
   ADD_BUN,
   ADD_FILLING,
   DELETE_FILLING,
-  SWAP_FILLING
+  SWAP_FILLING,
+  CLEAR_CONSTRUCTOR,
 } from '../actions/burger-constructor';
 
 const initialState = {
@@ -52,6 +53,10 @@ export const burgerСonstructorReducer = (state = initialState, action) => {
         ...state,
         fillings: dragFillings,
       };
+    }
+
+    case CLEAR_CONSTRUCTOR: {
+      return initialState;
     }
 
     default: {

@@ -9,7 +9,6 @@ export default function IngredientDetails({ isBackground }) {
   const { ingredients } = useSelector(getBurgerIngredients);
   const { id } = useParams();
   const ingredient = ingredients.find((ingredient) => ingredient._id === id);
-  console.log(ingredients);
 
   const IngredientDetailsModal = () => {
     return (
