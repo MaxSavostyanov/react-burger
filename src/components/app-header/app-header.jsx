@@ -8,9 +8,12 @@ import {
 }
   from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
+import { useSelector } from 'react-redux';
+import { getAuthData } from '../../services/reducers';
 
 export default function AppHeader() {
   const { pathname } = useLocation();
+  const { userData } = useSelector(getAuthData);
 
   return (
     <header className={styles.header}>
@@ -51,7 +54,7 @@ export default function AppHeader() {
           >
             <ProfileIcon type={pathname === '/profile' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
-              Личный кабинет
+              {userData ? `${userData.user.name}` : 'Личный кабинет'}
             </p>
           </NavLink>
         </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
   Input,
   PasswordInput,
@@ -13,8 +13,7 @@ import { getAuthData } from '../../services/reducers';
 export const ResetPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isReset } = useSelector(getAuthData);
-  console.log(isReset);
+  const { isReset } = useSelector(getAuthData)
 
   const [form, setValue] = useState({ password: '', token: '' });
 
@@ -27,8 +26,7 @@ export const ResetPassword = () => {
     dispatch(setNewPassword(form, navigate));
   };
 
-
-  return (
+  const element = (
     <div className={styles.container}>
       <h2 className={`${styles.title} text text_type_main-medium pb-6`}>Восстановление пароля</h2>
 
@@ -70,4 +68,6 @@ export const ResetPassword = () => {
         </Link>
       </p>
     </div >)
+  
+  return isReset ? element : (<Navigate to={'/forgot-password'}/>);
 }

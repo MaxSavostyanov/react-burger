@@ -18,7 +18,6 @@ export const Profile = () => {
   const dispatch = useDispatch();
 
   const { userData, isChanged } = useSelector(getAuthData);
-  console.log(userData);
   const name = userData.user.name;
   const email = userData.user.email;
 

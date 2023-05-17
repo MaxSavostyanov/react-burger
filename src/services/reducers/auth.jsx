@@ -1,4 +1,6 @@
 import {
+  AUTH_CHECKED,
+  
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILED,
@@ -34,6 +36,7 @@ import {
 
 const initialState = {
   userData: null,
+  isAuthCheked: false,
 
   registrationRequest: false,
   registrationFailed: false,
@@ -63,6 +66,13 @@ const initialState = {
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case AUTH_CHECKED: {
+      return {
+        ...state,
+        isAuthCheked: true,
+      }
+    }
 
     case REGISTRATION_REQUEST: {
       return {
@@ -200,7 +210,7 @@ export const authReducer = (state = initialState, action) => {
 		case GET_USER_SUCCESS: {
 			return {
 				...state,
-				user: {...state.userData, user: action.user},
+				userData: {...state.userData, user: action.user},
 				getUserRequest: false,
 				getUserFailed: false,
 			};

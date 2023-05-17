@@ -14,6 +14,8 @@ import {
   deleteCookie,
 } from '../../untils/cookie/cookie';
 
+export const AUTH_CHECKED = 'AUTH_CHECKED';
+
 export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
 export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
 export const REGISTRATION_FAILED = 'REGISTRATION_FAILED';
@@ -95,7 +97,7 @@ export function logOut() {
       .then((res) => {
         if (res.success) {
           dispatch({ type: LOGOUT_SUCCESS });
-          localStorage.removeItem('refreshToken');
+          localStorage.clear();
           deleteCookie('accessToken');
         }
       })
@@ -133,7 +135,6 @@ export function setNewPassword(password, navigate) {
     changePasswordRequest(password)
       .then((res) => {
         if (res.success) {
-          console.log(res);
           dispatch({ type: RESET_PASSWORD_SUCCESS });
           navigate('/login');
         }
@@ -147,18 +148,33 @@ export function setNewPassword(password, navigate) {
   };
 }
 
+export function updateToken() {
+  return updateTokenRequest()
+    .then((res) => {
+      setCookie('accessToken', res.accessToken);
+      localStorage.setItem('refreshToken', res.refreshToken);
+    })
+    .catch((e) => {
+      console.log(`Упс, ошибка! ${e}`);
+    });
+}
+
 export function getUserData() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
     return getUserRequest(getCookie('accessToken'))
       .then((res) => {
-        dispatch({ type: GET_USER_SUCCESS, payload: res.user });
+        dispatch({ type: GET_USER_SUCCESS, user: res.user });
       })
       .catch((e) => {
-        console.log(`Упс, ошибка! ${e}`);
-        dispatch({
-          type: GET_USER_FAILED,
-        });
+        console.log(`Пользователь не авторизован ${e}`);
+        if (e) {
+          updateToken().then(() => dispatch(getUserData()));
+        } else {
+          dispatch({
+            type: GET_USER_FAILED,
+          });
+        }
       });
   };
 }
@@ -180,21 +196,13 @@ export function setChangedUser(data) {
   };
 }
 
-export function updateToken() {
-  return updateTokenRequest()
-    .then((res) => {
-      setCookie('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-    })
-    .catch((e) => {
-      console.log(`Упс, ошибка! ${e}`);
-    });
-}
-
 export const checkAuth = () => (dispatch) => {
-  if (!getCookie('accessToken') && localStorage.getItem('refreshToken')) {
-    dispatch(updateToken())
+  if (getCookie('accessToken')) {
+    dispatch(getUserData())
+      .finally(() => {
+        dispatch({ type: AUTH_CHECKED });
+      })
   } else {
-    dispatch(getUserData());
+    dispatch({ type: AUTH_CHECKED });
   }
 };
