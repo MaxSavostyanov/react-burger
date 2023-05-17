@@ -11,7 +11,7 @@ export default function IngredientDetails({ isBackground }) {
   const ingredient = ingredients.find((ingredient) => ingredient._id === id);
 
   const IngredientDetailsModal = () => {
-    return (
+    return ingredient ? (
       <div className={`${styles.container} pb-5`}>
         <h2 className={`${styles.title} text text_type_main-large pt-4 pb-5`}>
           Детали ингредиента
@@ -64,7 +64,7 @@ export default function IngredientDetails({ isBackground }) {
           </li>
         </ul>
       </div>
-    )
+    ) : null;
   }
 
   const IngredientDetailsRoute = () => {
