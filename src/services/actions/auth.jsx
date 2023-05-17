@@ -69,7 +69,7 @@ export function registerNewUser(user, navigate) {
   };
 }
 
-export function logIn(user, navigate) {
+export function logIn(user) {
   return function (dispatch) {
     dispatch({ type: LOGIN_REQUEST });
     loginRequest(user)
@@ -78,7 +78,6 @@ export function logIn(user, navigate) {
           dispatch({ type: LOGIN_SUCCESS, user: res });
           localStorage.setItem('refreshToken', res.refreshToken);
           setCookie('accessToken', res.accessToken);
-          navigate('/');
         }
       })
       .catch((e) => {
@@ -90,7 +89,7 @@ export function logIn(user, navigate) {
   };
 }
 
-export function logOut() {
+export function logOut(navigate) {
   return function (dispatch) {
     dispatch({ type: LOGOUT_REQUEST });
     logoutRequest(localStorage.getItem('refreshToken'))
@@ -99,6 +98,7 @@ export function logOut() {
           dispatch({ type: LOGOUT_SUCCESS });
           localStorage.clear();
           deleteCookie('accessToken');
+          navigate('/login');
         }
       })
       .catch((e) => {

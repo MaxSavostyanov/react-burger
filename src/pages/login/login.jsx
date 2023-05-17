@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   EmailInput,
   PasswordInput,
@@ -11,8 +11,6 @@ import { logIn } from '../../services/actions/auth';
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [form, setValue] = useState({ email: '', password: '' });
 
   const onChange = (e) => {
@@ -21,7 +19,7 @@ export const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(logIn(form, navigate));
+    dispatch(logIn(form));
   };
 
   return (

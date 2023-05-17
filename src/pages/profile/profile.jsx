@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   Input,
   Button,
@@ -16,6 +16,7 @@ import { getAuthData } from '../../services/reducers';
 
 export const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { userData, isChanged } = useSelector(getAuthData);
   const name = userData.user.name;
@@ -41,7 +42,7 @@ export const Profile = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logOut());
+    dispatch(logOut(navigate));
   };
 
   return (

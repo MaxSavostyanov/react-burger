@@ -33,7 +33,7 @@ export default function AppHeader() {
             to='/feed'
             className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
           >
-            <ListIcon type={pathname === '/profile/orders' ? 'primary' : 'secondary'} />
+            <ListIcon type={pathname === '/feed' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
               Лента заказов
             </p>
