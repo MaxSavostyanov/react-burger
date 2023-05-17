@@ -47,7 +47,7 @@ export const Login = () => {
           />
         </div>
 
-        <Button type='primary' size='medium'>
+        <Button htmlType='submit' type='primary' size='medium'>
           Войти
         </Button>
       </form>

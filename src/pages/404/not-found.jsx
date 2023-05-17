@@ -19,6 +19,7 @@ export const NotFound404 = () => {
       </p>
 
       <Button
+        htmlType='button'
         type="primary"
         size="medium"
         onClick={onClick}>
