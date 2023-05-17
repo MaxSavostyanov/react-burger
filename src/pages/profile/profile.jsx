@@ -51,8 +51,7 @@ export const Profile = () => {
           <li className={styles.item}>
             <NavLink
               to='/profile'
-              className={`${styles.link} text text_type_main-medium text_color_inactive`}
-              activeClassName={`${styles.linkActive} text text_type_main-medium`}
+              className={({ isActive }) => `${styles.link} text text_type_main-medium text_color_inactive ${isActive ? styles.linkActive : ''}`}
             >
               Профиль
             </NavLink>
@@ -61,8 +60,7 @@ export const Profile = () => {
           <li className={styles.item}>
             <NavLink
               to='/profile/orders'
-              className={`${styles.link} text text_type_main-medium text_color_inactive`}
-              activeClassName={`${styles.linkActive} text text_type_main-medium`}
+              className={({ isActive }) => `${styles.link} text text_type_main-medium text_color_inactive ${isActive ? styles.linkActive : ''}`}
             >
               История заказов
             </NavLink>
@@ -72,8 +70,7 @@ export const Profile = () => {
             <NavLink
               to='/'
               onClick={handleLogout}
-              className={`${styles.link} text text_type_main-medium text_color_inactive`}
-              activeClassName={`${styles.linkActive} text text_type_main-medium`}
+              className={({ isActive }) => `${styles.link} text text_type_main-medium text_color_inactive ${isActive ? styles.linkActive : ''}`}
             >
               Выход
             </NavLink>

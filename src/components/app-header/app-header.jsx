@@ -22,7 +22,6 @@ export default function AppHeader() {
           <NavLink
             to='/'
             className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
-            activeClassName={`${styles.btn_active}`}
           >
             <BurgerIcon type={pathname === '/' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
@@ -33,7 +32,6 @@ export default function AppHeader() {
           <NavLink
             to='/feed'
             className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
-            activeClassName={`${styles.btn_active}`}
           >
             <ListIcon type={pathname === '/profile/orders' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
