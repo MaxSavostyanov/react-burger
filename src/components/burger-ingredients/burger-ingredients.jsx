@@ -1,24 +1,9 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import styles from './burger-ingredients.module.css';
 import Tabs from '../burger-ingredients-tabs/burger-ingredients-tabs';
 import Category from '../burger-ingredients-category/burger-ingredients-category';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
-import { getIngredientDetails } from '../../services/reducers';
 
 export default function BurgerIngredients() {
-  const dispatch = useDispatch();
-  const { openIngredient } = useSelector(getIngredientDetails);
-
-  const closeIngredientDetails = () => {
-    dispatch({
-      type: CLOSE_INGREDIENT_DETAILS,
-    });
-  };
-
   const [bunRef, bunInView] = useInView({ threshold: .05 });
   const [sauceRef, sauceInView] = useInView({ threshold: .05 });
   const [mainRef, mainInView] = useInView({ threshold: .05 });
@@ -53,12 +38,6 @@ export default function BurgerIngredients() {
           />
         </div>
       </ul>
-
-      {!!openIngredient && (
-        <Modal closeModal={closeIngredientDetails}>
-          <IngredientDetails ingredient={openIngredient} />
-        </Modal>
-      )}
     </section >
   )
 }

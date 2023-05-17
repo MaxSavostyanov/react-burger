@@ -2,11 +2,13 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 import { getBurgerIngredients } from '../../services/actions/burger-ingredients';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import {
@@ -21,16 +23,28 @@ import { checkAuth } from '../../services/actions/auth';
 
 export default function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const background = location.state?.background;
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(getBurgerIngredients());
+    console.log('ing получены');
+  }, [dispatch]);
+
+  React.useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+  const handleCloseModal = (e) => {
+    e.stopPropagation();
+    navigate(-1);
+  }
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={background || location}>
         <Route path='/' element={
           <main className={styles.main}>
             <DndProvider backend={HTML5Backend}>
@@ -75,9 +89,22 @@ export default function App() {
           element={<ProtectedRoute element={<NotFound404 />} />}
         />
 
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='/feed' element={<NotFound404 />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингредиента' closeModal={handleCloseModal}>
+                <IngredientDetails isBackground />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 }
