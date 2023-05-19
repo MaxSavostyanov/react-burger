@@ -48,6 +48,16 @@ export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
 export const IS_CHANGED = 'IS_CHANGED';
 export const STOP_CHANGE = 'STOP_CHANGE';
 
+export function setToken(res) {
+  localStorage.setItem('refreshToken', res.refreshToken);
+  setCookie('accessToken', res.accessToken);
+}
+
+export function clearToken() {
+  localStorage.clear();
+  deleteCookie('accessToken');
+}
+
 export function registerNewUser(user, navigate) {
   return function (dispatch) {
     dispatch({ type: REGISTRATION_REQUEST });
@@ -57,8 +67,7 @@ export function registerNewUser(user, navigate) {
           dispatch({ type: REGISTRATION_SUCCESS, user: res });
           navigate('/login');
         }
-        localStorage.setItem('refreshToken', res.refreshToken);
-        setCookie('accessToken', res.accessToken);
+        setToken(res);
       })
       .catch((e) => {
         console.log(`Упс, ошибка! ${e}`);
@@ -76,8 +85,7 @@ export function logIn(user) {
       .then((res) => {
         if (res.success) {
           dispatch({ type: LOGIN_SUCCESS, user: res });
-          localStorage.setItem('refreshToken', res.refreshToken);
-          setCookie('accessToken', res.accessToken);
+          setToken(res);
         }
       })
       .catch((e) => {
@@ -96,8 +104,7 @@ export function logOut(navigate) {
       .then((res) => {
         if (res.success) {
           dispatch({ type: LOGOUT_SUCCESS });
-          localStorage.clear();
-          deleteCookie('accessToken');
+          clearToken(navigate);
           navigate('/login');
         }
       })
@@ -148,15 +155,22 @@ export function setNewPassword(password, navigate) {
   };
 }
 
-export function updateToken() {
-  return updateTokenRequest()
-    .then((res) => {
-      setCookie('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-    })
-    .catch((e) => {
-      console.log(`Упс, ошибка! ${e}`);
-    });
+export function updateToken(type) {
+  return function (dispatch) {
+    console.log('Ошибка токена! \n Обновление токена!')
+    return updateTokenRequest()
+      .then((res) => {
+        setToken(res);
+        console.log(`%c Токен обновлён!`, 'color: green');
+      })
+      .catch((e) => {
+        console.log(`Токен не обновлён! \n ${e} \n Пользователь не авторизован!`);
+        clearToken();
+        dispatch({
+          type: type,
+        });
+      });
+  }
 }
 
 export function getUserData() {
@@ -164,13 +178,15 @@ export function getUserData() {
     dispatch({ type: GET_USER_REQUEST });
     return getUserRequest(getCookie('accessToken'))
       .then((res) => {
+        console.log(`%c Данные пользователя получены!`, 'color: green')
         dispatch({ type: GET_USER_SUCCESS, user: res.user });
       })
       .catch((e) => {
-        console.log(`Пользователь не авторизован ${e}`);
-        if (e) {
-          updateToken().then(() => dispatch(getUserData()));
+        if (e && localStorage.getItem('refreshToken')) {
+          dispatch(updateToken(GET_USER_FAILED))
+            .then(() => dispatch(getUserData()));
         } else {
+          console.log(`Пользователь не авторизован ${e}`);
           dispatch({
             type: GET_USER_FAILED,
           });
@@ -188,10 +204,15 @@ export function setChangedUser(data) {
         console.log(`%c Данные пользоватетеля изменены!`, 'color: green');
       })
       .catch((e) => {
-        console.log(`Упс, ошибка! ${e}`);
-        dispatch({
-          type: UPDATE_USER_FAILED,
-        });
+        if (e && localStorage.getItem('refreshToken')) {
+          dispatch(updateToken(UPDATE_USER_FAILED))
+            .then(() => dispatch(setChangedUser(data)));
+        } else {
+          console.log(`Упс, ошибка! ${e}`);
+          dispatch({
+            type: UPDATE_USER_FAILED,
+          });
+        }
       });
   };
 }
