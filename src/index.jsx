@@ -7,7 +7,8 @@ import {
 } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import './pages/index.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './index.css';
 import App from './components/app/app';
 import { rootReducer } from './services/reducers/index';
 
@@ -24,8 +25,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
   </React.StrictMode>
 );

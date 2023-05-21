@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import uuid from 'react-uuid';
 import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
 import { getBurgerIngredients } from '../../services/reducers';
@@ -25,7 +24,7 @@ export default function BurgerIngredientsCategory({ type }) {
       <ul className={`${styles.list} pr-1`}>
         {ingredients.map((ingredient) => (
           <Item
-            key={uuid()}
+            key={ingredient._id}
             ingredient={ingredient}
           />
         ))}

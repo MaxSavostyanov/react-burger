@@ -6,6 +6,8 @@
   width: 100%;
   max-width: 272px;
   cursor: pointer;
+  text-decoration: none;
+  color: #F2F2F3;
 }
 
 .image {

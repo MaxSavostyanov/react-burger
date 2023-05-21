@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import {
   Logo,
   BurgerIcon,
@@ -7,38 +8,53 @@ import {
 }
   from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
+import { useSelector } from 'react-redux';
+import { getAuthData } from '../../services/reducers';
 
 export default function AppHeader() {
+  const { pathname } = useLocation();
+  const { userData } = useSelector(getAuthData);
+
   return (
     <header className={styles.header}>
       <nav className={`${styles.container} pt-4 pb-4`}>
         <div className={`${styles.btns} ${styles.btns_left}`}>
-          <a href='#constructor' className={`${styles.btn} ${styles.btn_active} pt-4 pb-4 pr-5 pl-5 mr-2`}>
-            <BurgerIcon type='primary' />
+          <NavLink
+            to='/'
+            className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
+          >
+            <BurgerIcon type={pathname === '/' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
               Конструктор
             </p>
-          </a>
+          </NavLink>
 
-          <a href='#ordersList' className={`${styles.btn} pt-4 pb-4 pr-5 pl-5 mr-2`}>
-            <ListIcon type='secondary' />
+          <NavLink
+            to='/feed'
+            className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
+          >
+            <ListIcon type={pathname === '/feed' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
               Лента заказов
             </p>
-          </a>
+          </NavLink>
+
         </div>
 
-        <div className={styles.logo}>
+        <Link to='/' className={styles.logo}>
           <Logo />
-        </div>
+        </Link>
 
         <div className={`${styles.btns} ${styles.btns_right}`}>
-          <a href='#account' className={`${styles.btn} pt-4 pb-4 pr-5 pl-5 ml-2`}>
-            <ProfileIcon type='secondary' />
+          <NavLink
+            to='/profile'
+            className={({ isActive }) => `${styles.btn} pt-4 pb-4 pr-5 pl-5 ${isActive ? styles.btn_active : ''}`}
+          >
+            <ProfileIcon type={pathname === '/profile' ? 'primary' : 'secondary'} />
             <p className='text text_type_main-default pl-2'>
-              Личный кабинет
+              {userData ? `${userData.user.name}` : 'Личный кабинет'}
             </p>
-          </a>
+          </NavLink>
         </div>
       </nav>
     </header>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { useDrop } from 'react-dnd';
 import {
@@ -20,11 +21,15 @@ import {
   CLOSE_ORDER_DETAILS,
   getOrder,
 } from '../../services/actions/order-details';
-import { getBurgerConstructor, getOrderDetails } from '../../services/reducers';
+import { CLEAR_CONSTRUCTOR } from '../../services/actions/burger-constructor';
+import { getBurgerConstructor, getOrderDetails, getAuthData } from '../../services/reducers';
 
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userData } = useSelector(getAuthData);
+
   const { bun, fillings, totalPrice } = useSelector(getBurgerConstructor);
   const { order } = useSelector(getOrderDetails);
 
@@ -35,20 +40,28 @@ export default function BurgerConstructor() {
   };
 
   const openOrderDetails = (e) => {
-    e.stopPropagation();
-    dispatch(getOrder(getBurgerIDs()));
+    if (userData) {
+      e.stopPropagation();
+      dispatch(getOrder(getBurgerIDs()));
+    } else {
+      navigate('/login');
+    }
   };
 
   const closeOrderDetails = () => {
     dispatch({
       type: CLOSE_ORDER_DETAILS,
     });
+
+    dispatch({
+      type: CLEAR_CONSTRUCTOR,
+    });
   };
 
   const [, dropTarget] = useDrop({
-    accept: "ingredient",
+    accept: 'ingredient',
     drop(item) {
-      if (item.ingredient.type === "bun") {
+      if (item.ingredient.type === 'bun') {
         dispatch({
           type: ADD_BUN,
           bun: item.ingredient,

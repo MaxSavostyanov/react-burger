@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients-item.module.css';
 import {
@@ -11,17 +12,9 @@ import { OPEN_INGREDIENT_DETAILS } from '../../services/actions/ingredient-detai
 import { getBurgerConstructor } from '../../services/reducers';
 
 export default function BurgerIngredientsItem({ ingredient }) {
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   const { bun, fillings } = useSelector(getBurgerConstructor);
-
-  const openIngredientDetails = (e) => {
-    e.stopPropagation();
-    dispatch({
-      type: OPEN_INGREDIENT_DETAILS,
-      ingredient: ingredient,
-    });
-  }
 
   const counter = React.useMemo(() => {
     if (bun && ingredient._id === bun._id) return 2
@@ -35,7 +28,7 @@ export default function BurgerIngredientsItem({ ingredient }) {
   }, [bun, fillings, ingredient]);
 
   const [{ opacity }, dragRef] = useDrag({
-    type: "ingredient",
+    type: 'ingredient',
     item: { ingredient },
     collect: monitor => ({
       opacity: monitor.isDragging() ? 0.5 : 1
@@ -43,9 +36,10 @@ export default function BurgerIngredientsItem({ ingredient }) {
   });
 
   return (
-    <div
+    <Link
+      to={`/ingredients/${ingredient._id}`}
+      state={{ background: location }}
       className={`${styles.item} ml-3 mr-3 pb-8`}
-      onClick={(e) => openIngredientDetails(e, ingredient)}
       style={{ opacity }}
       ref={dragRef}
     >
@@ -56,7 +50,7 @@ export default function BurgerIngredientsItem({ ingredient }) {
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{ingredient.name}</p>
       {!!counter && <Counter count={counter} size='default' />}
-    </div>
+    </Link>
   )
 }
 
