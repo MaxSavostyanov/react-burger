@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1240px;
+}
+
+.title {
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+}

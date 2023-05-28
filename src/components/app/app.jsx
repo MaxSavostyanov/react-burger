@@ -17,6 +17,7 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
+  Feed,
   NotFound404,
 } from '../../pages/index'
 import { checkAuth } from '../../services/actions/auth';
@@ -89,7 +90,10 @@ export default function App() {
         />
 
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/feed' element={<NotFound404 />} />
+        
+        <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:id' element={<Feed />} />
+
         <Route path='*' element={<NotFound404 />} />
       </Routes>
       {background && (
