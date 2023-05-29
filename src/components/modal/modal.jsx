@@ -35,6 +35,7 @@ export default function Modal({
         className={`${styles.container} pt-10 pr-10 pb-10 pl-10`}
         onClick={e => e.stopPropagation()}
       >
+        
         {children}
 
         <button className={`${styles.close} mt-15 mr-10`} >
