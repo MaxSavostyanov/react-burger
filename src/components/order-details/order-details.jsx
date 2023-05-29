@@ -1,21 +1,73 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import { useSelector } from 'react-redux';
-import styles from './order-details.module.css'
-import icon from '../../images/icon-done.svg'
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import OrderStatus from '../order-status/order-status';
+import TotalPrice from '../total_price/total_price';
+import styles from './order-details.module.css';
 import { getOrderDetails } from '../../services/reducers';
+import { getBurgerIngredients } from '../../services/reducers';
+import { gerOrderIngredients } from '../../untils/functions';
 
-export default function OrderDetails() {
+
+export default function OrderDetails(isBackground) {
   const { order } = useSelector(getOrderDetails);
+  const { ingredients } = useSelector(getBurgerIngredients);
 
-  return (
-    <div className={`${styles.container} pt-20 pb-20`}>
-      <h1 className='text text_type_digits-large pb-8'>
-        {order.order.number}
-      </h1>
-      <p className='text text_type_main-medium pb-15'>идентификатор заказа</p>
-      <img className={`${styles.icon} pb-15`} src={icon} alt='Заказ принят' />
-      <p className='text text_type_main-default pb-2'>Ваш заказ начали готовить</p>
-      <p className='text text_type_main-default text_color_inactive'>Дождитесь готовности на орбитальной станции</p>
-    </div>
-  )
+  const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
+
+  const OrderDetailsElement = ({ container, number }) => {
+    return order ? (
+      <div className={`${container}`}>
+        <p className={`${number} text text_type_digits-large pb-10`}>
+          {`#45623`}
+        </p>
+        <h1 className={`text text_type_main-medium pb-3`}>
+          {`Бургер!`}
+        </h1>
+        <OrderStatus status={order.status}/>
+
+        <h2 className="text text_type_main-medium pt-15 pb-6">
+          Состав:
+        </h2>
+        <ul className={`${styles.ingredients} pr-6`}>
+          <li className={styles.ingredient} key={``}>
+            <img
+              className={styles.image}
+              src={''}
+              alt={''}
+            />
+            <p className={`${styles.name} text text_type_main-default`}>
+              {''}
+            </p>
+            <div className={styles.price}>
+              <span className="text text_type_digits-default">
+                {`.. x ..`}
+              </span>
+              <CurrencyIcon type="primary" />
+            </div>
+          </li>
+        </ul>
+
+        <div className={`${styles.footer} pt-10`}>
+          <FormattedDate
+            className="text text_type_main-default text_color_inactive"
+            date={new Date(order.createdAt)}
+          />
+          <TotalPrice orderIngredients={orderIngredients}/>
+        </div>
+      </div>
+    ) : null;
+  }
+
+  return isBackground
+    ? <OrderDetailsElement
+      container={styles.container}
+      number={styles.number} />
+    : <OrderDetailsElement
+      container={styles.containerRoute}
+      number={styles.numberRouter}
+    />;
 }

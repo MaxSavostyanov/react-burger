@@ -18,7 +18,7 @@ export default function OrderList() {
             to={{ pathname: `/feed/${order._id}`, state: { background: location } }}
             className={styles.link} key={order._id}
           >
-            <OrderCard order={order} status={false} />
+            <OrderCard order={order} isStatus={false} />
           </Link>
         )
       })}

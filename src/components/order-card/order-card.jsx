@@ -2,25 +2,16 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { FormattedDate, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './order-card.module.css';
+import OrderStatus from '../order-status/order-status';
+import TotalPrice from '../total_price/total_price';
 import { getBurgerIngredients } from '../../services/reducers';
+import { gerOrderIngredients } from '../../untils/functions';
+import PropTypes from 'prop-types';
 
-export default function OrderCard({ order, status }) {
+export default function OrderCard({ order, isStatus }) {
   const { ingredients } = useSelector(getBurgerIngredients);
 
-  const orderIngredients = useMemo(() => {
-    return order?.ingredients.map((id) => {
-      return ingredients?.find((ingredient) => {
-        return id === ingredient._id;
-      })
-    })
-  }, [order?.ingredients, ingredients]);
-
-
-  const totalOrderPrice = useMemo(() => {
-    return orderIngredients?.reduce((total, ingredient) => {
-      return total += ingredient.price * (ingredient?.type === 'bun' ? 2 : 1);
-    }, 0)
-  }, [orderIngredients]);
+  const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
 
   return (
     <div className={styles.container}>
@@ -38,13 +29,7 @@ export default function OrderCard({ order, status }) {
         <h2 className={`${styles.name} text text_type_main-medium`}>
           {order.name}
         </h2>
-        {!!status &&
-          <p className={`${status === 'done' && styles.statusDone} text text_type_main-default`}>
-            {status === 'done' ? 'Выполнен'
-              : status === 'pending' ? 'Готовится'
-                : status === 'created' ? 'Создан'
-                  : 'Выполнен'}
-          </p>}
+        {!!isStatus && <OrderStatus status={order.status} />}
       </div>
 
       <div className={styles.info}>
@@ -88,15 +73,15 @@ export default function OrderCard({ order, status }) {
           })}
         </ul>
 
-        <div className={styles.price}>
-          <p className='text text_type_digits-default pr-2'>
-            {totalOrderPrice}
-          </p>
-          <CurrencyIcon type="primary" />
-        </div>
+        <TotalPrice orderIngredients={orderIngredients}></TotalPrice>
       </div>
 
 
     </div>
   )
 }
+
+OrderCard.prototype = {
+  order: PropTypes.object.isRequired,
+  isStatus: PropTypes.bool,
+};
