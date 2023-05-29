@@ -1,8 +1,10 @@
 
+import { useSelector } from 'react-redux';
 import styles from './order-stats.module.css';
+import { getOrdersData } from '../../services/reducers';
 
 export default function OrderStats() {
-  const { orders, total, totalToday } = {};
+  const { orders, total, totalToday } = useSelector(getOrdersData);
 
   const isDone = orders.filter(order => order.status === 'done').filter((order, index) => index <= 20);
   const inProgress = orders.filter(order => order.status !== 'done').filter((order, index) => index <= 20);

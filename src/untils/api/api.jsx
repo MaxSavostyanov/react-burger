@@ -13,6 +13,8 @@ export const URL = {
   user: `${BASE_URL}/auth/user`,
   logout: `${BASE_URL}/auth/logout`,
   token: `${BASE_URL}/auth/token`,
+
+  socket: `wss://norma.nomoreparties.space/orders`,
 };
 
 const checkResponse = res => {

@@ -4,6 +4,7 @@
 	align-items: flex-start;
 	width: 100%;
 	max-width: 640px;
+  padding-top: 20px;
 }
 
 .containerRoute {
@@ -71,16 +72,18 @@ background: #2f2f37;
 }
 
 .name {
-  max-width: 320px;
+  display: flex;
+  align-items: center;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .price {
   display: flex;
-  gap: 8px;
   justify-content: flex-end;
+  gap: 8px;
 }

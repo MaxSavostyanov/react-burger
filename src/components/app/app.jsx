@@ -93,7 +93,7 @@ export default function App() {
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
 
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:id' element={<OrderDetails />} />
+        <Route path='/feed/:id' element={<OrderDetails allOrders />} />
 
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -121,7 +121,7 @@ export default function App() {
             path='/feed/:id'
             element={
               <Modal closeModal={handleCloseModal}>
-                <OrderDetails isBackground />
+                <OrderDetails isBackground allOrders/>
               </Modal>
             }
           />

@@ -1,9 +1,28 @@
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import {
+  WS_CONNECTING,
+  WS_DISCONNECTING,
+} from '../../services/actions/wsActions';
+import { URL } from '../../untils/api/api';
 import OrderList from '../../components/order-list/order-list';
 import OrderStats from '../../components/order-stats/order-stats';
 import styles from './feed.module.css';
 
 export const Feed = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTING,
+      payload: `${URL.socket}/all`,
+    });
+    return () => {
+      dispatch({
+        type: WS_DISCONNECTING,
+      });
+    };
+  }, [dispatch]);
 
   return (
     <div className={`${styles.container} pt-10`}>
@@ -12,7 +31,7 @@ export const Feed = () => {
       </h1>
 
       <div className={`${styles.columns} pt-5`}>
-        <OrderList></OrderList>
+        <OrderList allOrders></OrderList>
         <OrderStats></OrderStats>
       </div>
     </div>
