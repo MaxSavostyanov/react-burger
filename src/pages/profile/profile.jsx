@@ -23,6 +23,7 @@ export const Profile = ({isOrders = false}) => {
           <li className={styles.item}>
             <NavLink
               to='/profile'
+              end
               className={({ isActive }) => `${styles.link} text text_type_main-medium text_color_inactive ${isActive ? styles.linkActive : ''}`}
             >
               Профиль
@@ -32,6 +33,7 @@ export const Profile = ({isOrders = false}) => {
           <li className={styles.item}>
             <NavLink
               to='/profile/orders'
+              end
               className={({ isActive }) => `${styles.link} text text_type_main-medium text_color_inactive ${isActive ? styles.linkActive : ''}`}
             >
               История заказов
