@@ -43,10 +43,11 @@
 .linkActive {
   cursor: default;
 	color: #f2f2f3;
-	
 }
 
-.form {
+.content {
+	display: flex;
+	justify-content: flex-start;
 	width: 100%;
-  max-width: 480px;
+	max-width: 850px;
 }
