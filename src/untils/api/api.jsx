@@ -30,15 +30,16 @@ export const getProductData = async () => {
     .then(checkResponse)
 }
 
-export const getOrderData = async (ids) => {
+export const getOrderData = async (ids, token) => {
   return await fetch(URL.orders, {
     method: 'POST',
     body: JSON.stringify({
       ingredients: ids
     }),
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+      authorization: token,
+    },
   })
     .then(checkResponse)
 }

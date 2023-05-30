@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+}
+
+.preloader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 374px;
+}
+
+.preloaderСircle {
+  position: relative;
+  margin: 120px auto 0;
+  display: block;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: conic-gradient(#4C4CFF, #801AB2);
+  animation: spin 0.75s linear infinite;
+}
+
+.preloaderСircle::after {
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  content: "";
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  background: #1C1C21;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
