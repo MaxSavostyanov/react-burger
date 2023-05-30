@@ -43,10 +43,10 @@ export default function OrderList({ allOrders }) {
       {
         allOrders
           ? orders?.map((order) => (
-            <OrderCard order={order} isStatus={false} />
+            <OrderCard order={order} isStatus={false} key={order._id} />
           ))
           : myOrders.map((order) => (
-            <OrderCard order={order} isStatus={true} />
+            <OrderCard order={order} isStatus={true} key={order._id} />
           ))
       }
     </div >

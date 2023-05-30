@@ -51,7 +51,7 @@ export default function OrderCard({ order, isStatus }) {
                     style={{ zIndex: 6 - index }}
                   >
                     <img
-                      className={styles.icon} s
+                      className={styles.icon}
                       src={ingredient?.image_mobile}
                       alt={ingredient?.name}
                     />

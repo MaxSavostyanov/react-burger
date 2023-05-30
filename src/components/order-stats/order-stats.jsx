@@ -21,7 +21,7 @@ export default function OrderStats() {
               return (
                 <li
                   className={`${styles.orderItem} ${styles.orderItemDone} text text_type_digits-default`}
-                  key={order._id}
+                  key={'done' + order._id}
                 >
                   {order.number}
                 </li>
@@ -35,11 +35,11 @@ export default function OrderStats() {
             В работе:
           </h3>
           <ul className={`${styles.orderList}`}>
-            {inProgress.map((order) => {
+            {inProgress.map((order, index) => {
               return (
                 <li
                   className={`${styles.orderItem} text text_type_digits-default`}
-                  key={order._id}
+                  key={'progress' + order._id}
                 >
                   {order.number}
                 </li>
