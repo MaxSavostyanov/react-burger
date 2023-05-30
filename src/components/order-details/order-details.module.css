@@ -11,9 +11,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding-top: 120px;
 	width: 100%;
 	max-width: 640px;
+  padding-top: 120px;
 }
 
 .number {

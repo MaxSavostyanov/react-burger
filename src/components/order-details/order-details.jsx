@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   CurrencyIcon,
@@ -8,15 +8,35 @@ import {
 import OrderStatus from '../order-status/order-status';
 import TotalPrice from '../total_price/total_price';
 import styles from './order-details.module.css';
+import {
+  WS_CONNECTING,
+  WS_DISCONNECTING,
+} from '../../services/actions/wsActions';
+import { URL } from '../../untils/api/api';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
 import { getOrdersData } from '../../services/reducers';
 
 
-export default function OrderDetails(isBackground) {
+export default function OrderDetails({ isBackground }) {
+  const dispatch = useDispatch();
+
   const { ingredients } = useSelector(getBurgerIngredients);
   const { orders, wsConnected } = useSelector(getOrdersData);
   const { id } = useParams();
+
+  React.useEffect(() => {
+    dispatch({
+      type: WS_CONNECTING,
+      payload: `${URL.socket}/all`,
+    });
+
+    return () => {
+      dispatch({
+        type: WS_DISCONNECTING,
+      });
+    };
+  }, [dispatch]);
 
   const order = orders?.find((item) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
@@ -87,6 +107,6 @@ export default function OrderDetails(isBackground) {
       number={styles.number} />
     : <OrderDetailsElement
       container={styles.containerRoute}
-      number={styles.numberRouter}
+      number={styles.numberRoute}
     />;
 }
