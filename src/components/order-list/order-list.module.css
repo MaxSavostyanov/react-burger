@@ -3,10 +3,8 @@
 	flex-direction: column;
 	gap: 16px;
 	width: 100%;
-  max-width: 600px;
 	height: 70vh;
 	min-height: 70%;
-	margin-right: 60px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

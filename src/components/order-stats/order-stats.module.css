@@ -27,7 +27,7 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 245px;
+  height: 200px; /*315px fоr 10 items */
   list-style: none;
 }
 

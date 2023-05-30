@@ -31,10 +31,10 @@ export default function OrderStats() {
         </div>
 
         <div className={styles.column}>
-          <h3 className='text text_type_main-medium'>
+          <h3 className='text text_type_main-medium pb-6'>
             В работе:
           </h3>
-          <ul className={`${styles.orderList} pt-6`}>
+          <ul className={`${styles.orderList}`}>
             {inProgress.map((order) => {
               return (
                 <li

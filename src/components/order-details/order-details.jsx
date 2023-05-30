@@ -1,5 +1,5 @@
-import React, { useMemo, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   CurrencyIcon,
@@ -11,40 +11,12 @@ import styles from './order-details.module.css';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
 import { getOrdersData } from '../../services/reducers';
-import {
-  WS_CONNECTING,
-  WS_DISCONNECTING,
-} from '../../services/actions/wsActions';
-import { URL } from '../../untils/api/api';
-import { getCookie } from '../../untils/cookie/cookie';
 
-export default function OrderDetails(isBackground, allOrders) {
-  const dispatch = useDispatch();
 
+export default function OrderDetails(isBackground) {
   const { ingredients } = useSelector(getBurgerIngredients);
   const { orders, wsConnected } = useSelector(getOrdersData);
   const { id } = useParams();
-
-  let token = getCookie('accessToken')?.split(' ')[1];
-
-  useEffect(() => {
-    if (allOrders) {
-      dispatch({
-        type: WS_CONNECTING,
-        payload: `${URL.socket}/all`,
-      });
-    } else {
-      dispatch({
-        type: WS_CONNECTING,
-        payload: `${URL.socket}?token=${token}`,
-      });
-    }
-    return () => {
-      dispatch({
-        type: WS_DISCONNECTING,
-      });
-    };
-  }, [dispatch, token, allOrders]);
 
   const order = orders?.find((item) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);

@@ -31,8 +31,13 @@ export const Feed = () => {
       </h1>
 
       <div className={`${styles.columns} pt-5`}>
-        <OrderList allOrders></OrderList>
-        <OrderStats></OrderStats>
+        <div className={`${styles.columnRight} mr-15`}>
+          <OrderList allOrders></OrderList>
+        </div>
+
+        <div className={`${styles.columnLeft}`}>
+          <OrderStats></OrderStats>
+        </div>
       </div>
     </div>
   )

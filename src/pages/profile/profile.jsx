@@ -1,5 +1,5 @@
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './profile.module.css';
 import {
@@ -56,7 +56,7 @@ export const Profile = ({isOrders = false}) => {
         </p>
       </nav>
 
-      <div className={styles.content}>
+      <div className={`${styles.content} pl-15`}>
         {!!isOrders
         ? <OrderList />
         : <ProfileForm />

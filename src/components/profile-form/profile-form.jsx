@@ -39,7 +39,7 @@ export default function ProfileForm(){
   };
 
   return (
-    <form className={`${styles.form} pl-15`} onSubmit={onSubmit}>
+    <form className={`${styles.form}`} onSubmit={onSubmit}>
       <div className='pb-6'>
         <Input
           type={'text'}
