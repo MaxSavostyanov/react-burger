@@ -26,17 +26,19 @@ export default function OrderDetails({ isBackground }) {
   const { id } = useParams();
 
   React.useEffect(() => {
-    dispatch({
-      type: WS_CONNECTING,
-      payload: `${URL.socket}/all`,
-    });
-
-    return () => {
+    if (!isBackground) {
       dispatch({
-        type: WS_DISCONNECTING,
+        type: WS_CONNECTING,
+        payload: `${URL.socket}/all`,
       });
-    };
-  }, [dispatch]);
+  
+      return () => {
+        dispatch({
+          type: WS_DISCONNECTING,
+        });
+      };
+    }
+  }, [dispatch, isBackground]);
 
   const order = orders?.find((item) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
