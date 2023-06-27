@@ -13,6 +13,8 @@ export const URL = {
   user: `${BASE_URL}/auth/user`,
   logout: `${BASE_URL}/auth/logout`,
   token: `${BASE_URL}/auth/token`,
+
+  socket: `wss://norma.nomoreparties.space/orders`,
 };
 
 const checkResponse = res => {
@@ -28,15 +30,16 @@ export const getProductData = async () => {
     .then(checkResponse)
 }
 
-export const getOrderData = async (ids) => {
+export const getOrderData = async (ids, token) => {
   return await fetch(URL.orders, {
     method: 'POST',
     body: JSON.stringify({
       ingredients: ids
     }),
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+      authorization: token,
+    },
   })
     .then(checkResponse)
 }

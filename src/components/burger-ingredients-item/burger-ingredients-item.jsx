@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useSelector} from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients-item.module.css';
 import {
@@ -8,7 +8,6 @@ import {
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientProps from '../../untils/prop-types';
-import { OPEN_INGREDIENT_DETAILS } from '../../services/actions/ingredient-details';
 import { getBurgerConstructor } from '../../services/reducers';
 
 export default function BurgerIngredientsItem({ ingredient }) {

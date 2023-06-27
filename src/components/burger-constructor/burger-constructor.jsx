@@ -12,17 +12,18 @@ import {
 import ConstructorFilling from '../burger-constructor-filling/burger-constructor-filling'
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import OrderAccept from '../order-accept/order-accept';
 import {
   ADD_BUN,
   ADD_FILLING,
 } from '../../services/actions/burger-constructor';
 import {
-  CLOSE_ORDER_DETAILS,
+  CLOSE_ORDER_ACCEPT,
   getOrder,
-} from '../../services/actions/order-details';
+} from '../../services/actions/order-accept';
 import { CLEAR_CONSTRUCTOR } from '../../services/actions/burger-constructor';
-import { getBurgerConstructor, getOrderDetails, getAuthData } from '../../services/reducers';
+import { getBurgerConstructor, getOrderAccept, getAuthData } from '../../services/reducers';
+import { getCookie } from '../../untils/cookie/cookie';
 
 
 export default function BurgerConstructor() {
@@ -31,7 +32,7 @@ export default function BurgerConstructor() {
   const { userData } = useSelector(getAuthData);
 
   const { bun, fillings, totalPrice } = useSelector(getBurgerConstructor);
-  const { order } = useSelector(getOrderDetails);
+  const { isOrder } = useSelector(getOrderAccept);
 
   const getBurgerIDs = () => {
     const ids = fillings.map(filling => filling._id);
@@ -39,18 +40,18 @@ export default function BurgerConstructor() {
     return ids;
   };
 
-  const openOrderDetails = (e) => {
+  const openOrderAccept = (e) => {
     if (userData) {
       e.stopPropagation();
-      dispatch(getOrder(getBurgerIDs()));
+      dispatch(getOrder(getBurgerIDs(), getCookie('accessToken')));
     } else {
       navigate('/login');
     }
   };
 
-  const closeOrderDetails = () => {
+  const closeOrderAccept = () => {
     dispatch({
-      type: CLOSE_ORDER_DETAILS,
+      type: CLOSE_ORDER_ACCEPT,
     });
 
     dispatch({
@@ -131,7 +132,7 @@ export default function BurgerConstructor() {
           type='primary'
           size='large'
           onClick={(e) => {
-            openOrderDetails(e);
+            openOrderAccept(e);
           }}
           disabled={!bun.price}
         >
@@ -139,9 +140,9 @@ export default function BurgerConstructor() {
         </Button>
       </div>
 
-      {!!order && (
-        <Modal closeModal={closeOrderDetails}>
-          <OrderDetails />
+      {isOrder && (
+        <Modal closeModal={closeOrderAccept}>
+          <OrderAccept />
         </Modal>
       )}
     </section>

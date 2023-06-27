@@ -11,13 +11,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './components/app/app';
 import { rootReducer } from './services/reducers/index';
+import { socketMiddleware } from './services/middleware/socket';
+import { wsActions } from './services/actions/wsActions';
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enchancer = composeEnhancers(applyMiddleware(thunk));
+const enchancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
 const store = createStore(rootReducer, enchancer);
 
