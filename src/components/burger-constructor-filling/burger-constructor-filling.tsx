@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './burger-constructor-filling.module.css'
@@ -8,10 +7,21 @@ import {
   ConstructorElement
 }
   from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientProps from '../../untils/prop-types';
+import { TIngredient } from '../../untils/types';
 import { DELETE_FILLING, SWAP_FILLING } from '../../services/actions/burger-constructor';
 
-export default function ConstructorFilling({ ingredient, index }) {
+type TConstructorIngredient = {
+  ingredient: TIngredient & { id: string };
+  index: number;
+}
+
+type TDragItem = {
+  index: number;
+  id: string;
+  type: string;
+};
+
+const ConstructorFilling: FC<TConstructorIngredient> = ({ ingredient, index }) => {
   const dispatch = useDispatch();
   const ref = React.useRef(null);
 
@@ -32,7 +42,7 @@ export default function ConstructorFilling({ ingredient, index }) {
     },
   });
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<TDragItem>({
     accept: "filling",
     hover(ingredient) {
       if (!ref.current) {
@@ -62,13 +72,10 @@ export default function ConstructorFilling({ ingredient, index }) {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={(() => onDelete(ingredient))}
+        handleClose={(() => onDelete())}
       />
     </li>
   )
 }
 
-ConstructorFilling.propTypes = {
-  ingredient: ingredientProps.isRequired,
-  index: PropTypes.number.isRequired,
-}
+export default ConstructorFilling;

@@ -24,6 +24,11 @@ import {
 import { CLEAR_CONSTRUCTOR } from '../../services/actions/burger-constructor';
 import { getBurgerConstructor, getOrderAccept, getAuthData } from '../../services/reducers';
 import { getCookie } from '../../untils/cookie/cookie';
+import { TIngredient } from '../../untils/types';
+
+type TDropItem = {
+  ingredient: TIngredient,
+}
 
 
 export default function BurgerConstructor() {
@@ -35,12 +40,12 @@ export default function BurgerConstructor() {
   const { isOrder } = useSelector(getOrderAccept);
 
   const getBurgerIDs = () => {
-    const ids = fillings.map(filling => filling._id);
+    const ids = fillings.map((filling: TIngredient) => filling._id);
     ids.push(bun._id);
     return ids;
   };
 
-  const openOrderAccept = (e) => {
+  const openOrderAccept = (e: React.FormEvent) => {
     if (userData) {
       e.stopPropagation();
       dispatch(getOrder(getBurgerIDs(), getCookie('accessToken')));
@@ -61,7 +66,7 @@ export default function BurgerConstructor() {
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: TDropItem) {
       if (item.ingredient.type === 'bun') {
         dispatch({
           type: ADD_BUN,
@@ -95,7 +100,7 @@ export default function BurgerConstructor() {
         <ul className={`${styles.list}`}>
           {fillings.length === 0
             ? <p className='text text_type_main-medium pl-8 pt-4'>2. Перетащите сюда понравившуюся начинку</p>
-            : fillings.map((filling, index) => {
+            : fillings.map((filling: TIngredient & { id: string }, index: number) => {
               return filling
                 ? (<ConstructorFilling
                   key={filling.id}

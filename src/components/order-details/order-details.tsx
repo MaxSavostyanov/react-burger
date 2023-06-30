@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
@@ -16,9 +16,19 @@ import { URL } from '../../untils/api/api';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
 import { getOrdersData } from '../../services/reducers';
+import { TIngredient, TOrder } from '../../untils/types';
+
+type TProps = {
+  isBackground?: boolean;
+};
+
+type TPropsElement = {
+  container: string,
+  number: string
+};
 
 
-export default function OrderDetails({ isBackground }) {
+const OrderDetails: FC<TProps> = ({ isBackground }) => {
   const dispatch = useDispatch();
 
   const { ingredients } = useSelector(getBurgerIngredients);
@@ -31,7 +41,7 @@ export default function OrderDetails({ isBackground }) {
         type: WS_CONNECTING,
         payload: `${URL.socket}/all`,
       });
-  
+
       return () => {
         dispatch({
           type: WS_DISCONNECTING,
@@ -40,18 +50,21 @@ export default function OrderDetails({ isBackground }) {
     }
   }, [dispatch, isBackground]);
 
-  const order = orders?.find((item) => item._id === id);
+  const order = orders?.find((item: TOrder) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
 
-  const uniqIngredients = order?.ingredients.filter((value, index, array) => array.indexOf(value) === index);
-  const getAmount = (id) => {
-    return order?.ingredients.reduce((amount, ing) => {
+  console.log(orders);
+
+  const uniqIngredients = order?.ingredients.filter((value: TIngredient, index: number, array: TIngredient[]) => array.indexOf(value) === index);
+
+  const getAmount = (id: string) => {
+    return order?.ingredients.reduce((amount: number, ing: string) => {
       if (ing === id) amount++;
       return amount;
     }, 0)
   };
 
-  const OrderDetailsElement = ({ container, number }) => {
+  const OrderDetailsElement: FC<TPropsElement> = ({ container, number }) => {
     return (
       wsConnected && order && (
         <div className={`${container}`}>
@@ -67,8 +80,8 @@ export default function OrderDetails({ isBackground }) {
             Состав:
           </h2>
           <ul className={`${styles.ingredients} pr-6`}>
-            {uniqIngredients.map((id) => {
-              const ingredient = ingredients.find((item) => item._id === id);
+            {uniqIngredients.map((id: string) => {
+              const ingredient = ingredients.find((item: TIngredient) => item._id === id);
               return (
                 <li className={styles.ingredient} key={ingredient._id}>
                   <div className={styles.name}>
@@ -112,3 +125,5 @@ export default function OrderDetails({ isBackground }) {
       number={styles.numberRoute}
     />;
 }
+
+export default OrderDetails;

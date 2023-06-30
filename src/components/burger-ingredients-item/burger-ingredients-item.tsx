@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector} from 'react-redux';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients-item.module.css';
@@ -7,10 +7,14 @@ import {
   CurrencyIcon,
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientProps from '../../untils/prop-types';
+import { TIngredient } from '../../untils/types';
 import { getBurgerConstructor } from '../../services/reducers';
 
-export default function BurgerIngredientsItem({ ingredient }) {
+type TProps = {
+  ingredient: TIngredient;
+}
+
+const BurgerIngredientsItem: FC<TProps> = ({ ingredient }) => {
   const location = useLocation();
 
   const { bun, fillings } = useSelector(getBurgerConstructor);
@@ -19,7 +23,7 @@ export default function BurgerIngredientsItem({ ingredient }) {
     if (bun && ingredient._id === bun._id) return 2
 
     else if (fillings.length > 0)
-      return fillings.reduce((count, item) => {
+      return fillings.reduce((count: number, item: TIngredient) => {
         return item._id === ingredient._id ? count += 1 : count;
       }, 0)
 
@@ -53,6 +57,4 @@ export default function BurgerIngredientsItem({ ingredient }) {
   )
 }
 
-BurgerIngredientsItem.propTypes = {
-  ingredient: ingredientProps.isRequired,
-}
+export default BurgerIngredientsItem;

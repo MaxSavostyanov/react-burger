@@ -1,9 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients-tabs.module.css';
 
-export default function BurgerIngredientsTabs(props) {
+type TProps = {
+  inViews: {
+    bunInView: boolean,
+    sauceInView: boolean,
+    mainInView: boolean
+  }
+}
+
+const BurgerIngredientsTabs: FC<TProps> = (props) => {
   const [current, setCurrent] = React.useState('bun');
   const { bunInView, sauceInView, mainInView } = props.inViews;
 
@@ -46,6 +53,4 @@ export default function BurgerIngredientsTabs(props) {
   )
 }
 
-BurgerIngredientsTabs.propTypes = {
-  inViews: PropTypes.objectOf(PropTypes.bool),
-}
+export default BurgerIngredientsTabs;

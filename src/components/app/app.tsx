@@ -37,7 +37,7 @@ export default function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  const handleCloseModal = (e) => {
+  const handleCloseModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigate(-1);
   }

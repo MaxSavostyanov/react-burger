@@ -1,16 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getBurgerIngredients } from '../../services/reducers';
-import styles from './ingredient-details.module.css'
+import styles from './ingredient-details.module.css';
+import { TIngredient } from '../../untils/types';
 
-export default function IngredientDetails({ isBackground }) {
+type TProps = {
+  isBackground?: boolean;
+};
+
+type TPropsElement = {
+  container: string,
+  title: string
+};
+
+const IngredientDetails: FC<TProps> = ({ isBackground }) => {
   const { ingredients } = useSelector(getBurgerIngredients);
   const { id } = useParams();
-  const ingredient = ingredients.find((ingredient) => ingredient._id === id);
+  const ingredient = ingredients.find((ingredient: TIngredient) => ingredient._id === id);
 
-  const IngredientDetailsElement = ({ container, title }) => {
+  const IngredientDetailsElement: FC<TPropsElement> = ({ container, title }) => {
     return ingredient ? (
       <div className={`${container} pb-5`}>
         <h2 className={`${title} text text_type_main-large pt-4 pb-5`}>
@@ -76,3 +85,5 @@ export default function IngredientDetails({ isBackground }) {
       title={styles.titleRouter}
     />
 }
+
+export default IngredientDetails;
