@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,9 +7,14 @@ import OrderStatus from '../order-status/order-status';
 import TotalPrice from '../total_price/total_price';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
-import PropTypes from 'prop-types';
+import { TIngredient, TOrder } from '../../untils/types';
 
-export default function OrderCard({ order, isStatus }) {
+type TProps = {
+  order: TOrder,
+  isStatus: boolean,
+}
+
+const OrderCard: FC<TProps> = ({ order, isStatus }) => {
   const location = useLocation();
   const { ingredients } = useSelector(getBurgerIngredients);
 
@@ -42,7 +47,7 @@ export default function OrderCard({ order, isStatus }) {
 
         <div className={styles.info}>
           <ul className={styles.ingredientsList}>
-            {orderIngredients.map((ingredient, index) => {
+            {orderIngredients.map((ingredient: TIngredient, index: number) => {
               if (index < 5) {
                 return (
                   <li
@@ -88,7 +93,4 @@ export default function OrderCard({ order, isStatus }) {
   )
 }
 
-OrderCard.prototype = {
-  order: PropTypes.object.isRequired,
-  isStatus: PropTypes.bool,
-};
+export default OrderCard;

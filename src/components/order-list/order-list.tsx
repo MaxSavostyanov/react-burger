@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import OrderCard from '../order-card/order-card';
 import styles from './order-list.module.css';
@@ -9,9 +9,13 @@ import {
 import { URL } from '../../untils/api/api';
 import { getCookie } from '../../untils/cookie/cookie';
 import { getOrdersData } from '../../services/reducers';
+import { TOrder } from '../../untils/types';
 
+type TProps = {
+  allOrders: boolean;
+}
 
-export default function OrderList({ allOrders }) {
+const OrderList: FC<TProps> = ({ allOrders }) => {
   const dispatch = useDispatch();
 
   const { orders } = useSelector(getOrdersData);
@@ -42,7 +46,7 @@ export default function OrderList({ allOrders }) {
     <div className={`${styles.container} pr-2`}>
       {
         allOrders
-          ? orders?.map((order) => (
+          ? orders?.map((order: TOrder) => (
             <OrderCard order={order} isStatus={false} key={order._id} />
           ))
           : myOrders.map((order) => (
@@ -52,3 +56,5 @@ export default function OrderList({ allOrders }) {
     </div >
   )
 }
+
+export default OrderList;

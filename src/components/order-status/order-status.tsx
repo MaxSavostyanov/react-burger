@@ -1,7 +1,11 @@
+import React, {FC} from 'react';
 import styles from './order-status.module.css';
-import PropTypes from 'prop-types';
 
-export default function OrderStatus({ status }) {
+type TProps = {
+  status: string;
+}
+
+const OrderStatus: FC<TProps> = ({ status }) => {
   let statusStyle = (status === 'done') ? styles.statusDone : 'null';
   let statusText = status === 'done' ? 'Выполнен'
     : status === 'pending' ? 'Готовится'
@@ -17,6 +21,4 @@ export default function OrderStatus({ status }) {
   )
 }
 
-OrderStatus.prototype = {
-  status: PropTypes.string.isRequired,
-};
+export default OrderStatus;
