@@ -22,3 +22,44 @@ export type TOrder = {
   updatedAt: string,
   _id: string,
 };
+
+export type TUser = {
+	email: string;
+	name: string;
+	createdAt?: string;
+	updatedAt?: string;
+}
+
+export type TUpdateUser = TUser & { password: string };
+
+export type TOrderDetailsResponse = {
+	name: string
+	order: TOrder;
+	success: boolean;
+}
+
+export type TIngredientResponse = {
+	data: Array<TIngredient>;
+	success: boolean;
+}
+
+export type TUserResponce = {
+	success: boolean;
+	user: TUser;
+	accessToken: string;
+	refreshToken: string;
+	message: string;
+}
+
+export type TLogoutResponse = {
+	message: string;
+	success: boolean;
+	refreshToken: string;
+}
+
+export type TOrdersResponce = {
+	success: boolean;
+	total: number;
+	totalToday: number;
+	orders: Array<TOrder>;
+}
