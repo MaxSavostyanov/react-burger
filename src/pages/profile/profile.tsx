@@ -1,5 +1,5 @@
-
-import { useDispatch } from 'react-redux';
+import { FC } from 'react';
+import { useDispatch} from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './profile.module.css';
 import {
@@ -8,7 +8,11 @@ import {
 import OrderList from '../../components/order-list/order-list';
 import ProfileForm from '../../components/profile-form/profile-form';
 
-export const Profile = ({isOrders = false}) => {
+type TProps = {
+  isOrders?: boolean,
+}
+
+export const Profile: FC<TProps> = ({isOrders = false}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

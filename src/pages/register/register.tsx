@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -10,17 +10,17 @@ import {
 import styles from './register.module.css';
 import { registerNewUser } from '../../services/actions/auth';
 
-export const Register = () => {
+export const Register: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [form, setValue] = useState({ email: '', password: '', name: '' });
 
-  const onChange = e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(registerNewUser(form, navigate));
   }

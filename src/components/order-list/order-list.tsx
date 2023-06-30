@@ -12,7 +12,7 @@ import { getOrdersData } from '../../services/reducers';
 import { TOrder } from '../../untils/types';
 
 type TProps = {
-  allOrders: boolean;
+  allOrders?: boolean;
 }
 
 const OrderList: FC<TProps> = ({ allOrders }) => {

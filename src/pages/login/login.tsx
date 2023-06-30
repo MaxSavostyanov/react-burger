@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -9,15 +9,15 @@ import {
 import styles from './login.module.css';
 import { logIn } from '../../services/actions/auth';
 
-export const Login = () => {
+export const Login: FC = () => {
   const dispatch = useDispatch();
   const [form, setValue] = useState({ email: '', password: '' });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(logIn(form));
   };

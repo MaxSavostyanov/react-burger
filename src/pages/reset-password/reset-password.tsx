@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
@@ -10,18 +10,18 @@ import styles from './reset-password.module.css';
 import { setNewPassword } from '../../services/actions/auth';
 import { getAuthData } from '../../services/reducers';
 
-export const ResetPassword = () => {
+export const ResetPassword: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isReset } = useSelector(getAuthData)
 
   const [form, setValue] = useState({ password: '', token: '' });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setNewPassword(form, navigate));
   };

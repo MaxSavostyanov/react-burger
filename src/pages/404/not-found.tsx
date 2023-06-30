@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { useNavigate } from "react-router-dom";
 import {
   Button
@@ -5,7 +6,7 @@ import {
 import styles from './not-found.module.css';
 import notFound from '../../images/not-found.png';
 
-export const NotFound404 = () => {
+export const NotFound404: FC = () => {
   const navigate = useNavigate();
 
   const onClick = () => navigate(-1);

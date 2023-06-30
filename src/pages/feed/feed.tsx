@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   WS_CONNECTING,
@@ -9,7 +9,7 @@ import OrderList from '../../components/order-list/order-list';
 import OrderStats from '../../components/order-stats/order-stats';
 import styles from './feed.module.css';
 
-export const Feed = () => {
+export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {

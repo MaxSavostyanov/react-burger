@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -9,16 +9,16 @@ import {
 import styles from './forgot-password.module.css';
 import { forgotPassword, SEND_EMAIL } from '../../services/actions/auth';
 
-export const ForgotPassword = () => {
+export const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setEmail] = useState({ email: '' });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail({ email: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(forgotPassword(form, navigate));
     dispatch({ type: SEND_EMAIL });
