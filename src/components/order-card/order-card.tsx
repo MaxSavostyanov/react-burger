@@ -47,7 +47,7 @@ const OrderCard: FC<TProps> = ({ order, isStatus }) => {
 
         <div className={styles.info}>
           <ul className={styles.ingredientsList}>
-            {orderIngredients.map((ingredient: TIngredient, index: number) => {
+            {orderIngredients.map((ingredient, index) => {
               if (index < 5) {
                 return (
                   <li
@@ -86,7 +86,7 @@ const OrderCard: FC<TProps> = ({ order, isStatus }) => {
             })}
           </ul>
 
-          <TotalPrice orderIngredients={orderIngredients}></TotalPrice>
+          <TotalPrice orderIngredients={orderIngredients as TIngredient[]}/>
         </div>
       </div>
     </Link>

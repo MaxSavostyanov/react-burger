@@ -53,8 +53,6 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
   const order = orders?.find((item: TOrder) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
 
-  console.log(orders);
-
   const uniqIngredients = order?.ingredients.filter((value: TIngredient, index: number, array: TIngredient[]) => array.indexOf(value) === index);
 
   const getAmount = (id: string) => {
@@ -110,7 +108,7 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
               className='text text_type_main-default text_color_inactive'
               date={new Date(order.createdAt)}
             />
-            <TotalPrice orderIngredients={orderIngredients} />
+            <TotalPrice orderIngredients={orderIngredients as TIngredient[]} />
           </div>
         </div>
       ));
