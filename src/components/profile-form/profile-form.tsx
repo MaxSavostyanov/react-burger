@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Input,
@@ -12,7 +12,7 @@ import {
 } from '../../services/actions/auth';
 import { getAuthData } from '../../services/reducers';
 
-export default function ProfileForm(){
+const ProfileForm: FC = () => {
   const dispatch = useDispatch();
 
   const { userData, isChanged } = useSelector(getAuthData);
@@ -21,7 +21,7 @@ export default function ProfileForm(){
 
   const [change, setChange] = useState({ name: name, email: email, password: '' });
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: IS_CHANGED });
     setChange({ ...change, [e.target.name]: e.target.value });
   };
@@ -31,7 +31,7 @@ export default function ProfileForm(){
     dispatch({ type: STOP_CHANGE });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setChangedUser(change));
     setChange({ ...change, password: '' });
@@ -105,3 +105,5 @@ export default function ProfileForm(){
     </form>
   )
 }
+
+export default ProfileForm;

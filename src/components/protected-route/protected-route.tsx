@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
+import { FC, ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getAuthData } from '../../services/reducers';
 
-export const ProtectedRoute = ({ onlyUnAuth = false, element, ...rest }) => {
+type TProps = {
+  onlyUnAuth?: boolean,
+  element: ReactElement,
+}
+
+export const ProtectedRoute: FC<TProps> = ({ onlyUnAuth = false, element, ...rest }) => {
   const { userData, isAuthCheked } = useSelector(getAuthData);
   const location = useLocation();
 
@@ -26,8 +31,4 @@ export const ProtectedRoute = ({ onlyUnAuth = false, element, ...rest }) => {
   }
 
   return element;
-};
-
-ProtectedRoute.propTypes = {
-  element: PropTypes.element,
 };

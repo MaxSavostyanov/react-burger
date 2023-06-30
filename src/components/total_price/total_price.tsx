@@ -1,12 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, FC } from 'react';
 import styles from './total_price.module.css';
 import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+import { TIngredient } from '../../untils/types';
 
+type TProps = {
+  orderIngredients: TIngredient[]; //array
+}
 
-export default function TotalPrice({ orderIngredients }) {
+const TotalPrice: FC<TProps> = ({ orderIngredients }) => {
   const totalOrderPrice = useMemo(() => {
     return orderIngredients?.reduce((total, ingredient) => {
       return total += ingredient.price * (ingredient?.type === 'bun' ? 2 : 1);
@@ -23,7 +26,5 @@ export default function TotalPrice({ orderIngredients }) {
   );
 }
 
-TotalPrice.prototype = {
-  orderIngredients: PropTypes.array.isRequired,
-};
+export default TotalPrice;
 
