@@ -14,16 +14,19 @@ import { rootReducer } from './services/reducers/index';
 import { socketMiddleware } from './services/middleware/socket';
 import { wsActions } from './services/actions/wsActions';
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+declare global {
+	interface Window {
+		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+	}
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enchancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
 
-const store = createStore(rootReducer, enchancer);
+export const store = createStore(rootReducer, enchancer);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>

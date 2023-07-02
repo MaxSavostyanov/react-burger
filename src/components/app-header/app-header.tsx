@@ -8,7 +8,7 @@ import {
 }
   from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { getAuthData } from '../../services/reducers';
 
 export default function AppHeader() {

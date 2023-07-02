@@ -1,6 +1,6 @@
 import {
   AUTH_CHECKED,
-  
+
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILED,
@@ -23,8 +23,8 @@ import {
   SEND_EMAIL,
 
   GET_USER_FAILED,
-	GET_USER_REQUEST,
-	GET_USER_SUCCESS,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
 
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
@@ -32,9 +32,42 @@ import {
   IS_CHANGED,
   STOP_CHANGE,
 
-} from '../actions/auth';
+} from '../constants/auth';
+import { TAuthActions } from '../actions/auth';
+import { TUser } from '../types/types';
 
-const initialState = {
+
+type TInitialState = {
+  userData: {user: TUser} | null,
+  isAuthCheked: boolean,
+
+  registrationRequest: boolean,
+  registrationFailed: boolean,
+
+  loginRequest: boolean,
+  loginFailed: boolean,
+
+  logoutRequest: boolean,
+  logoutFailed: boolean,
+
+  forgotPasswordRequest: boolean,
+  forgotPasswordFailed: boolean,
+  forgotPasswordSuccess: boolean,
+  isReset: boolean,
+
+  resetPasswordRequest: boolean,
+  resetPasswordFailed: boolean,
+  resetPasswordSuccess: boolean,
+
+  getUserRequest: boolean,
+  getUserFailed: boolean,
+
+  updateUserRequest: boolean,
+  updateUserFailed: boolean,
+  isChanged: boolean,
+};
+
+const initialState: TInitialState = {
   userData: null,
   isAuthCheked: false,
 
@@ -57,14 +90,14 @@ const initialState = {
   resetPasswordSuccess: false,
 
   getUserRequest: false,
-	getUserFailed: false,
+  getUserFailed: false,
 
   updateUserRequest: false,
   updateUserFailed: false,
   isChanged: false,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
   switch (action.type) {
 
     case AUTH_CHECKED: {
@@ -85,7 +118,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: false,
         registrationFailed: false,
-        userData: action.user,
+        userData: {...state.userData, user: action.user.user},
       };
     }
     case REGISTRATION_FAILED: {
@@ -105,7 +138,7 @@ export const authReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        userData: action.user,
+        userData: {...state.userData, user: action.user.user},
         loginRequest: false,
         loginFailed: false,
       };
@@ -194,27 +227,27 @@ export const authReducer = (state = initialState, action) => {
     }
 
     case GET_USER_REQUEST: {
-			return {
-				...state,
-				getUserFailed: false,
-				getUserRequest: true,
-			};
-		}
-		case GET_USER_FAILED: {
-			return {
-				...state,
-				getUserFailed: true,
-				getUserRequest: false,
-			};
-		}
-		case GET_USER_SUCCESS: {
-			return {
-				...state,
-				userData: {...state.userData, user: action.user},
-				getUserRequest: false,
-				getUserFailed: false,
-			};
-		}
+      return {
+        ...state,
+        getUserFailed: false,
+        getUserRequest: true,
+      };
+    }
+    case GET_USER_FAILED: {
+      return {
+        ...state,
+        getUserFailed: true,
+        getUserRequest: false,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        userData:  {...state.userData, user: action.user.user} ,
+        getUserRequest: false,
+        getUserFailed: false,
+      };
+    }
 
     case UPDATE_USER_REQUEST: {
       return {
@@ -225,7 +258,7 @@ export const authReducer = (state = initialState, action) => {
     case UPDATE_USER_SUCCESS: {
       return {
         ...state,
-        userData: {...state.userData, user: action.user},
+        userData: {...state.userData, user: action.user.user} ,
         updateUserRequest: false,
         updateUserFailed: false,
       };

@@ -1,7 +1,7 @@
 export function setCookie(
   name: string,
   value: string,
-  props: { [key: string]: any } & { expires?: number | Date | string },
+  props?: { [key: string]: any } & { expires?: number | Date | string },
 ) {
   props = {
     path: "/",

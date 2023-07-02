@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './profile.module.css';
 import {
@@ -10,7 +10,7 @@ import ProfileForm from '../../components/profile-form/profile-form';
 
 type TProps = {
   isOrders?: boolean,
-}
+};
 
 export const Profile: FC<TProps> = ({isOrders = false}) => {
   const dispatch = useDispatch();

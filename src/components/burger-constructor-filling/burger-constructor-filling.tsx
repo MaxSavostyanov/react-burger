@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './burger-constructor-filling.module.css'
 import {
@@ -7,11 +7,11 @@ import {
   ConstructorElement
 }
   from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredient } from '../../untils/types';
-import { DELETE_FILLING, SWAP_FILLING } from '../../services/actions/burger-constructor';
+import { TIngredient } from '../../services/types/types';
+import { DELETE_FILLING, SWAP_FILLING } from '../../services/constants/burger-constructor';
 
 type TConstructorIngredient = {
-  ingredient: TIngredient & { id: string };
+  ingredient: TIngredient;
   index: number;
 }
 

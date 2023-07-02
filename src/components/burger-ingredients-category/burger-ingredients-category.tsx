@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import Item from '../burger-ingredients-item/burger-ingredients-item';
 import styles from './burger-ingredients-category.module.css';
 import { getBurgerIngredients } from '../../services/reducers';
-import { TIngredient } from '../../untils/types';
+import { TIngredient } from '../../services/types/types';
 
 type TCategory = {
   type: string;

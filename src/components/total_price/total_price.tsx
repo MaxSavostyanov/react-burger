@@ -3,7 +3,7 @@ import styles from './total_price.module.css';
 import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredient } from '../../untils/types';
+import { TIngredient } from '../../services/types/types';
 
 type TProps = {
   orderIngredients: TIngredient[]; //array

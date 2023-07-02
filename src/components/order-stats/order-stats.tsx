@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import styles from './order-stats.module.css';
 import { getOrdersData } from '../../services/reducers';
-import { TOrder } from '../../untils/types';
+import { TOrder } from '../../services/types/types';
 
 const OrderStats: FC = () => {
   const { orders, total, totalToday } = useSelector(getOrdersData);
 
-  const isDone = orders.filter((order: TOrder) => order.status === 'done').filter((order: TOrder, index: number) => index <= 20);
-  const inProgress = orders.filter((order: TOrder) => order.status !== 'done').filter((order: TOrder, index: number) => index <= 20);
+  const isDone = orders.filter((order: TOrder) => order.status === 'done').filter((order: TOrder, index: number) => index <= 17);
+  const inProgress = orders.filter((order: TOrder) => order.status !== 'done').filter((order: TOrder, index: number) => index <= 17);
 
   return (
     <div className={styles.container}>

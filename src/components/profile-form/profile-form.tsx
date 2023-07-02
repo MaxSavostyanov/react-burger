@@ -1,23 +1,25 @@
 import { useState, FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './profile-form.module.css';
 import {
-  IS_CHANGED,
-  STOP_CHANGE,
   setChangedUser,
 } from '../../services/actions/auth';
+import {
+  IS_CHANGED,
+  STOP_CHANGE,
+} from '../../services/constants';
 import { getAuthData } from '../../services/reducers';
 
 const ProfileForm: FC = () => {
   const dispatch = useDispatch();
 
   const { userData, isChanged } = useSelector(getAuthData);
-  const name = userData.user.name;
-  const email = userData.user.email;
+  const name = userData?.user?.name;
+  const email = userData?.user?.email;
 
   const [change, setChange] = useState({ name: name, email: email, password: '' });
 
@@ -46,7 +48,7 @@ const ProfileForm: FC = () => {
           placeholder={'Имя'}
           onChange={onChange}
           icon={'EditIcon'}
-          value={change.name}
+          value={`${change.name}`}
           name={'name'}
           error={false}
           errorText={'Ошибка'}
@@ -60,7 +62,7 @@ const ProfileForm: FC = () => {
           placeholder={'Логин'}
           onChange={onChange}
           icon={'EditIcon'}
-          value={change.email}
+          value={`${change.email}`}
           name={'email'}
           error={false}
           errorText={'Ошибка'}

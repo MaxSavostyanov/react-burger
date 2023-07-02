@@ -1,9 +1,10 @@
 import {
+  TIngredientResponse,
   TOrderDetailsResponse,
   TUpdateUser,
   TUser,
   TUserResponce
-} from '../types';
+} from '../../services/types/types';
 
 export const BASE_URL = 'https://norma.nomoreparties.space/api';
 
@@ -34,10 +35,10 @@ export const checkResponse = <T>(res: Response): Promise<T> => {
 
 export const getProductData = async () => {
   return await fetch(URL.ingredients)
-    .then(checkResponse)
+    .then(res => checkResponse<TIngredientResponse>(res))
 }
 
-export const getOrderData = async (ids: string[], token: string) => {
+export const getOrderData = async (ids: string[], token: string | undefined) => {
   return await fetch(URL.orders, {
     method: 'POST',
     body: JSON.stringify({
@@ -45,7 +46,7 @@ export const getOrderData = async (ids: string[], token: string) => {
     }),
     headers: {
       "Content-Type": "application/json",
-      authorization: token,
+      authorization: `Bearer ${token}`,
     },
   })
     .then(res => checkResponse<TOrderDetailsResponse>(res));
@@ -62,7 +63,7 @@ export const setNewUser = async (user: TUser) => {
     .then(res => checkResponse<TUserResponce>(res))
 }
 
-export function loginRequest(user: TUser) {
+export function loginRequest(user: { email: string, password: string }) {
   return fetch(URL.login, {
     method: 'POST',
     body: JSON.stringify(user),
@@ -72,7 +73,7 @@ export function loginRequest(user: TUser) {
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function logoutRequest(refreshToken: string) {
+export function logoutRequest(refreshToken: string | null) {
   return fetch(URL.logout, {
     method: 'POST',
     body: JSON.stringify({ token: refreshToken }),
@@ -82,7 +83,7 @@ export function logoutRequest(refreshToken: string) {
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function resetPasswordRequest(email: string) {
+export function resetPasswordRequest(email: {email: string}) {
   return fetch(URL.forgotPassword, {
     method: 'POST',
     body: JSON.stringify(email),
@@ -92,7 +93,7 @@ export function resetPasswordRequest(email: string) {
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function changePasswordRequest(password: string) {
+export function changePasswordRequest(password: {password: string}) {
   return fetch(URL.resetPassword, {
     method: 'POST',
     body: JSON.stringify(password),
@@ -102,26 +103,26 @@ export function changePasswordRequest(password: string) {
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function getUserRequest(accessToken: string) {
+export function getUserRequest(accessToken: string | undefined) {
   return fetch(URL.user, {
     headers: {
-      authorization: accessToken,
+      authorization: `Bearer ${accessToken}`,
     },
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function updateUserRequest(data: TUpdateUser, accessToken: string) {
+export function updateUserRequest(data: TUpdateUser, accessToken: string | undefined) {
   return fetch(URL.user, {
     method: 'PATCH',
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
-      authorization: accessToken,
+      authorization: `Bearer ${accessToken}`,
     },
   }).then(res => checkResponse<TUserResponce>(res));
 }
 
-export function updateTokenRequest() {
+export async function updateTokenRequest() {
   return fetch(URL.token, {
     method: 'POST',
     headers: {

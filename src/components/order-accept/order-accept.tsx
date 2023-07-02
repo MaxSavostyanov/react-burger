@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import styles from './order-accept.module.css';
 import icon from '../../images/icon-done.svg';
 import { getOrderAccept } from '../../services/reducers';

@@ -1,9 +1,11 @@
+import { Middleware, MiddlewareAPI } from "redux";
+import { TWSActions } from '../types/types';
 
-import { updateToken } from '../actions/auth';
 
-export const socketMiddleware = (wsActions) => {
-  return (store) => {
-    let socket = null;
+
+export const socketMiddleware = (wsActions: TWSActions): Middleware => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
     let url = '';
 
     return (next) => (action) => {
@@ -35,18 +37,7 @@ export const socketMiddleware = (wsActions) => {
         socket.onmessage = (event) => {
           let data = JSON.parse(event.data);
 
-          if (!data.success) {
-            if (data.message === 'Invalid or missing token') {
-              socket.close();
-              return updateToken()
-                .then(() => {
-                  dispatch({ type: wsConnecting });
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          }
+
           dispatch({ type: onMessage, payload: data });
         };
 

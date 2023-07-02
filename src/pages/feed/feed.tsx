@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   WS_CONNECTING,
   WS_DISCONNECTING,
-} from '../../services/actions/wsActions';
+} from '../../services/constants/ws';
 import { URL } from '../../untils/api/api';
 import OrderList from '../../components/order-list/order-list';
 import OrderStats from '../../components/order-stats/order-stats';

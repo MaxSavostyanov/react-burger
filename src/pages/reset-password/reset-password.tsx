@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
   Input,

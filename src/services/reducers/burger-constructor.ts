@@ -1,12 +1,20 @@
+import { TIngredient } from '../types/types';
+import { TBurgerConstructorActions } from '../actions/burger-constructor';
 import {
   ADD_BUN,
   ADD_FILLING,
   DELETE_FILLING,
   SWAP_FILLING,
   CLEAR_CONSTRUCTOR,
-} from '../actions/burger-constructor';
+} from '../constants/burger-constructor';
 
-const initialState = {
+type TInitialState = {
+  bun: TIngredient | { price: number } | any,
+  fillings: TIngredient[],
+  totalPrice: number,
+};
+
+const initialState: TInitialState = {
   bun: {
     price: 0
   },
@@ -14,7 +22,7 @@ const initialState = {
   totalPrice: 0,
 };
 
-export const burgerСonstructorReducer = (state = initialState, action) => {
+export const burgerСonstructorReducer = (state = initialState, action: TBurgerConstructorActions) => {
   switch (action.type) {
     case ADD_BUN: {
       return {

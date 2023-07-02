@@ -1,5 +1,5 @@
 import React, { useMemo, FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { useParams } from 'react-router-dom';
 import {
   CurrencyIcon,
@@ -11,12 +11,12 @@ import styles from './order-details.module.css';
 import {
   WS_CONNECTING,
   WS_DISCONNECTING,
-} from '../../services/actions/wsActions';
+} from '../../services/constants/ws';
 import { URL } from '../../untils/api/api';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
 import { getOrdersData } from '../../services/reducers';
-import { TIngredient, TOrder } from '../../untils/types';
+import { TIngredient, TOrder } from '../../services/types/types';
 
 type TProps = {
   isBackground?: boolean;
@@ -50,10 +50,10 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
     }
   }, [dispatch, isBackground]);
 
-  const order = orders?.find((item: TOrder) => item._id === id);
+  const order = orders?.find((item: TOrder ) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
 
-  const uniqIngredients = order?.ingredients.filter((value: TIngredient, index: number, array: TIngredient[]) => array.indexOf(value) === index);
+  const uniqIngredients = order?.ingredients.filter((value: string, index: number, array: string[]) => array.indexOf(value) === index);
 
   const getAmount = (id: string) => {
     return order?.ingredients.reduce((amount: number, ing: string) => {
@@ -62,7 +62,7 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
     }, 0)
   };
 
-  const OrderDetailsElement: FC<TPropsElement> = ({ container, number }) => {
+  const OrderDetailsElement: FC<TPropsElement> = ({ container, number }): any => {
     return (
       wsConnected && order && (
         <div className={`${container}`}>
@@ -78,23 +78,23 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
             Состав:
           </h2>
           <ul className={`${styles.ingredients} pr-6`}>
-            {uniqIngredients.map((id: string) => {
+            {uniqIngredients?.map((id: string) => {
               const ingredient = ingredients.find((item: TIngredient) => item._id === id);
               return (
-                <li className={styles.ingredient} key={ingredient._id}>
+                <li className={styles.ingredient} key={ingredient?._id}>
                   <div className={styles.name}>
                     <img
                       className={`${styles.image}`}
-                      src={ingredient.image_mobile}
-                      alt={ingredient.name}
+                      src={ingredient?.image_mobile}
+                      alt={ingredient?.name}
                     />
                     <p className={`text text_type_main-default pl-4`}>
-                      {ingredient.name}
+                      {ingredient?.name}
                     </p>
                   </div>
                   <div className={styles.price}>
                     <span className='text text_type_digits-default'>
-                      {`${getAmount(id)} x ${ingredient.price}`}
+                      {`${getAmount(id)} x ${ingredient?.price}`}
                     </span>
                     <CurrencyIcon type='primary' />
                   </div>

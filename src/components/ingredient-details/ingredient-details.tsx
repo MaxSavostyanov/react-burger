@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { getBurgerIngredients } from '../../services/reducers';
 import styles from './ingredient-details.module.css';
-import { TIngredient } from '../../untils/types';
+import { TIngredient } from '../../services/types/types';
 
 type TProps = {
   isBackground?: boolean;

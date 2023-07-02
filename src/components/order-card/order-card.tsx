@@ -1,5 +1,5 @@
 import React, { useMemo, FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-card.module.css';
@@ -7,7 +7,7 @@ import OrderStatus from '../order-status/order-status';
 import TotalPrice from '../total_price/total_price';
 import { getBurgerIngredients } from '../../services/reducers';
 import { gerOrderIngredients } from '../../untils/functions';
-import { TIngredient, TOrder } from '../../untils/types';
+import { TIngredient, TOrder } from '../../services/types/types';
 
 type TProps = {
   order: TOrder,
@@ -47,7 +47,7 @@ const OrderCard: FC<TProps> = ({ order, isStatus }) => {
 
         <div className={styles.info}>
           <ul className={styles.ingredientsList}>
-            {orderIngredients.map((ingredient, index) => {
+            {orderIngredients?.map((ingredient, index) => {
               if (index < 5) {
                 return (
                   <li

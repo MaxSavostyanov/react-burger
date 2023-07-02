@@ -1,15 +1,15 @@
 import React, { useMemo, FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import OrderCard from '../order-card/order-card';
 import styles from './order-list.module.css';
 import {
   WS_CONNECTING,
   WS_DISCONNECTING,
-} from '../../services/actions/wsActions';
+} from '../../services/constants/ws';
 import { URL } from '../../untils/api/api';
 import { getCookie } from '../../untils/cookie/cookie';
 import { getOrdersData } from '../../services/reducers';
-import { TOrder } from '../../untils/types';
+import { TOrder } from '../../services/types/types';
 
 type TProps = {
   allOrders?: boolean;
@@ -21,7 +21,7 @@ const OrderList: FC<TProps> = ({ allOrders }) => {
   const { orders } = useSelector(getOrdersData);
   const myOrders = useMemo(() => [...orders]?.reverse(), [orders]);
 
-  let token = getCookie('accessToken')?.split(' ')[1];
+  let token = getCookie('accessToken');
 
   React.useEffect(() => {
     if (allOrders) {

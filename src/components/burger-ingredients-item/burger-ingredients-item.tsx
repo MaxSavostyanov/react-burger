@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import styles from './burger-ingredients-item.module.css';
@@ -7,7 +7,7 @@ import {
   CurrencyIcon,
   Counter
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredient } from '../../untils/types';
+import { TIngredient } from '../../services/types/types';
 import { getBurgerConstructor } from '../../services/reducers';
 
 type TProps = {

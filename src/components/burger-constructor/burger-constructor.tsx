@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { useNavigate } from 'react-router-dom';
 import uuid from 'react-uuid';
 import { useDrop } from 'react-dnd';
@@ -16,20 +16,19 @@ import OrderAccept from '../order-accept/order-accept';
 import {
   ADD_BUN,
   ADD_FILLING,
-} from '../../services/actions/burger-constructor';
-import {
   CLOSE_ORDER_ACCEPT,
+} from '../../services/constants/';
+import {
   getOrder,
 } from '../../services/actions/order-accept';
-import { CLEAR_CONSTRUCTOR } from '../../services/actions/burger-constructor';
+import { CLEAR_CONSTRUCTOR } from '../../services/constants/burger-constructor';
 import { getBurgerConstructor, getOrderAccept, getAuthData } from '../../services/reducers';
 import { getCookie } from '../../untils/cookie/cookie';
-import { TIngredient } from '../../untils/types';
+import { TIngredient } from '../../services/types/types';
 
 type TDropItem = {
   ingredient: TIngredient,
 }
-
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -100,7 +99,7 @@ export default function BurgerConstructor() {
         <ul className={`${styles.list}`}>
           {fillings.length === 0
             ? <p className='text text_type_main-medium pl-8 pt-4'>2. Перетащите сюда понравившуюся начинку</p>
-            : fillings.map((filling: TIngredient & { id: string }, index: number) => {
+            : fillings.map((filling: TIngredient, index: number) => {
               return filling
                 ? (<ConstructorFilling
                   key={filling.id}

@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { Link } from 'react-router-dom';
 import {
   EmailInput,

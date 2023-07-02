@@ -1,13 +1,14 @@
 
 import { useState, FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import {
   Input,
   Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './forgot-password.module.css';
-import { forgotPassword, SEND_EMAIL } from '../../services/actions/auth';
+import { forgotPassword} from '../../services/actions/auth';
+import { SEND_EMAIL } from '../../services/constants';
 
 export const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
