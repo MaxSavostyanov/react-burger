@@ -269,7 +269,7 @@ export function forgotPassword(email: { email: string }, navigate: NavigateFunct
   };
 }
 
-export function setNewPassword(password: {password: string}, navigate: NavigateFunction) {
+export function setNewPassword(password: { password: string }, navigate: NavigateFunction) {
   return function (dispatch: AppDispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     changePasswordRequest(password)
@@ -288,72 +288,67 @@ export function setNewPassword(password: {password: string}, navigate: NavigateF
   };
 }
 
-export function updateToken(type:  typeof GET_USER_FAILED | typeof UPDATE_USER_FAILED) {
-  return function (dispatch: AppDispatch) {
-    console.log('Ошибка токена! \n Обновление токена!')
-    return updateTokenRequest()
-      .then((res) => {
-        setToken(res);
-        console.log(`%c Токен обновлён!`, 'color: green');
-      })
-      .catch((e) => {
-        console.log(`Токен не обновлён! \n ${e} \n Пользователь не авторизован!`);
-        clearToken();
+export function updateToken(type: typeof GET_USER_FAILED | typeof UPDATE_USER_FAILED, dispatch: AppDispatch) {
+  console.log('Ошибка токена! \n Обновление токена!')
+  return updateTokenRequest()
+    .then((res) => {
+      setToken(res);
+      console.log(`%c Токен обновлён!`, 'color: green');
+    })
+    .catch((e) => {
+      console.log(`Токен не обновлён! \n ${e} \n Пользователь не авторизован!`);
+      clearToken();
+      dispatch({
+        type: type,
+      });
+    });
+}
+
+export function getUserData(dispatch: AppDispatch) {
+  dispatch({ type: GET_USER_REQUEST });
+  return getUserRequest(getCookie('accessToken'))
+    .then((res) => {
+      console.log(`%c Данные пользователя получены!`, 'color: green')
+      dispatch({ type: GET_USER_SUCCESS, user: res });
+    })
+    .catch((e) => {
+      if (e && localStorage.getItem('refreshToken')) {
+        updateToken(UPDATE_USER_FAILED, dispatch)
+          .then(() => getUserData(dispatch));
+      } else {
+        console.log(`Пользователь не авторизован ${e}`);
         dispatch({
-          type: type,
+          type: GET_USER_FAILED,
         });
-      });
-  }
-}
+      }
+    });
+};
 
-export function getUserData() {
-  return function (dispatch: AppDispatch) {
-    dispatch({ type: GET_USER_REQUEST });
-    return getUserRequest(getCookie('accessToken'))
-      .then((res) => {
-        console.log(`%c Данные пользователя получены!`, 'color: green')
-        dispatch({ type: GET_USER_SUCCESS, user: res});
-      })
-      .catch((e) => {
-        if (e && localStorage.getItem('refreshToken')) {
-          dispatch<any>(updateToken(GET_USER_FAILED))
-            .then(() => dispatch<any>(getUserData()));
-        } else {
-          console.log(`Пользователь не авторизован ${e}`);
-          dispatch({
-            type: GET_USER_FAILED,
-          });
-        }
-      });
-  };
-}
 
-export function setChangedUser(data: TUpdateUser) {
-  return function (dispatch: AppDispatch) {
-    dispatch({ type: UPDATE_USER_REQUEST });
-    updateUserRequest(data, getCookie('accessToken'))
-      .then((res) => {
-        console.log(res);
-        dispatch({ type: UPDATE_USER_SUCCESS, user: res });
-        console.log(`%c Данные пользоватетеля изменены!`, 'color: green');
-      })
-      .catch((e) => {
-        if (e && localStorage.getItem('refreshToken')) {
-          dispatch<any>(updateToken(UPDATE_USER_FAILED))
-            .then(() => dispatch<any>(setChangedUser(data)));
-        } else {
-          console.log(`Упс, ошибка! ${e}`);
-          dispatch({
-            type: UPDATE_USER_FAILED,
-          });
-        }
-      });
-  };
-}
+export function setChangedUser(data: TUpdateUser, dispatch: AppDispatch) {
+  dispatch({ type: UPDATE_USER_REQUEST });
+  updateUserRequest(data, getCookie('accessToken'))
+    .then((res) => {
+      dispatch({ type: UPDATE_USER_SUCCESS, user: res });
+      console.log(`%c Данные пользоватетеля изменены!`, 'color: green');
+    })
+    .catch((e) => {
+      if (e && localStorage.getItem('refreshToken')) {
+        updateToken(UPDATE_USER_FAILED, dispatch)
+          .then(() => setChangedUser(data, dispatch));
+      } else {
+        console.log(`Упс, ошибка! ${e}`);
+        dispatch({
+          type: UPDATE_USER_FAILED,
+        });
+      }
+    });
+};
+
 
 export const checkAuth = () => (dispatch: AppDispatch) => {
   if (getCookie('accessToken')) {
-    dispatch<any>(getUserData())
+    getUserData(dispatch)
       .finally(() => {
         dispatch({ type: AUTH_CHECKED });
       })

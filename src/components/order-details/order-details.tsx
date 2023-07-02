@@ -50,7 +50,7 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
     }
   }, [dispatch, isBackground]);
 
-  const order = orders?.find((item: TOrder ) => item._id === id);
+  const order = orders?.find((item: TOrder) => item._id === id);
   const orderIngredients = useMemo(() => gerOrderIngredients(order, ingredients), [order, ingredients]);
 
   const uniqIngredients = order?.ingredients.filter((value: string, index: number, array: string[]) => array.indexOf(value) === index);
@@ -62,9 +62,9 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
     }, 0)
   };
 
-  const OrderDetailsElement: FC<TPropsElement> = ({ container, number }): any => {
+  const OrderDetailsElement: FC<TPropsElement> = ({ container, number }) => {
     return (
-      wsConnected && order && (
+      wsConnected && order ? (
         <div className={`${container}`}>
           <p className={`${number} text text_type_digits-default pb-10`}>
             {`#${order.number}`}
@@ -111,7 +111,7 @@ const OrderDetails: FC<TProps> = ({ isBackground }) => {
             <TotalPrice orderIngredients={orderIngredients as TIngredient[]} />
           </div>
         </div>
-      ));
+      ) : null);
   }
 
   return isBackground

@@ -35,7 +35,7 @@ const ProfileForm: FC = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setChangedUser(change));
+    setChangedUser(change, dispatch);
     setChange({ ...change, password: '' });
     dispatch({ type: STOP_CHANGE });
   };
